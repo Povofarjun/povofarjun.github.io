@@ -21,32 +21,82 @@
     </header>
     <main class="container">
         <section class="skills">
-            <div class="skill" data-skill="python">Python</div>
-            <div class="skill" data-skill="html5">HTML5</div>
-            <div class="skill" data-skill="css3">CSS3</div>
-            <div class="skill" data-skill="javascript">JavaScript</div>
-            <div class="skill" data-skill="sql">SQL</div>
-            <div class="skill" data-skill="react">React</div>
-            <div class="skill" data-skill="nodejs">Node.js</div>
-            <div class="skill" data-skill="php">PHP</div>
-            <div class="skill" data-skill="typescript">TypeScript</div>
-            <div class="skill" data-skill="docker">Docker</div>
+            <div class="skill" data-skill="python" onclick="showSkillDescription('python')">Python</div>
+            <div class="skill" data-skill="html5" onclick="showSkillDescription('html5')">HTML5</div>
+            <div class="skill" data-skill="css3" onclick="showSkillDescription('css3')">CSS3</div>
+            <div class="skill" data-skill="javascript" onclick="showSkillDescription('javascript')">JavaScript</div>
+            <div class="skill" data-skill="sql" onclick="showSkillDescription('sql')">SQL</div>
+            <div class="skill" data-skill="react" onclick="showSkillDescription('react')">React</div>
+            <div class="skill" data-skill="nodejs" onclick="showSkillDescription('nodejs')">Node.js</div>
+            <div class="skill" data-skill="php" onclick="showSkillDescription('php')">PHP</div>
+            <div class="skill" data-skill="typescript" onclick="showSkillDescription('typescript')">TypeScript</div>
+            <div class="skill" data-skill="docker" onclick="showSkillDescription('docker')">Docker</div>
         </section>
         <section id="skill-description" class="skill-description hidden">
             <h2 id="skill-title"></h2>
             <p id="skill-text"></p>
         </section>
         <section class="cta-section">
-            <button class="cta">Hire Me</button>
+            <button id="hire-me-btn" class="cta" onclick="toggleBookingForm()">Hire Me</button>
+        </section>
+        <section id="booking-form-section" class="booking-form hidden">
+            <form id="booking-form" onsubmit="submitForm(event)">
+                <label for="email">Email:</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+                <button type="submit">Submit</button>
+            </form>
         </section>
         <section class="about">
             <img src="pic.jpeg" alt="Arjun Pansheriya" class="profile-pic">
             <h2>About Me</h2>
-            <p>As a freelance IT developer, I bring professionalism and expertise to every project. With a strong background in
+            <p>As a freelance IT developer, I bring professionalism and expertise to every project. With a strong
+                background in
                 various programming languages and technologies, I'm committed to turning your ideas into reality.</p>
         </section>
     </main>
-    <script src="script.js"></script>
+    <script>
+        const skillInfo = {
+            python: { title: "Python Development", text: "Custom Python applications, data analysis, and automation scripts." },
+            html5: { title: "HTML5 Development", text: "Modern, semantic HTML5 structures for robust web applications." },
+            css3: { title: "CSS3 Styling", text: "Responsive and attractive designs using the latest CSS3 features." },
+            javascript: { title: "JavaScript Programming", text: "Dynamic and interactive web applications using vanilla JS and modern frameworks." },
+            sql: { title: "SQL Database Management", text: "Database design, optimization, and management for various SQL databases." },
+            react: { title: "React Development", text: "Building scalable front-end applications with React." },
+            nodejs: { title: "Node.js Development", text: "Server-side JavaScript applications and APIs using Node.js." },
+            php: { title: "PHP Development", text: "Dynamic websites and applications using PHP." },
+            typescript: { title: "TypeScript Development", text: "Type-safe JavaScript development for large-scale applications." },
+            docker: { title: "Docker Containerization", text: "Containerizing applications for consistent deployment across environments." }
+        };
+
+        function showSkillDescription(skill) {
+            const skillDescription = document.getElementById('skill-description');
+            const skillTitle = document.getElementById('skill-title');
+            const skillText = document.getElementById('skill-text');
+
+            if (skillInfo[skill]) {
+                skillTitle.textContent = skillInfo[skill].title;
+                skillText.textContent = skillInfo[skill].text;
+                skillDescription.classList.remove('hidden');
+            }
+        }
+
+        function toggleBookingForm() {
+            const bookingFormSection = document.getElementById('booking-form-section');
+            bookingFormSection.classList.toggle('hidden');
+        }
+
+        function submitForm(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            if (email) {
+                alert(`Thank you for your interest! We will contact you at ${email}.`);
+                document.getElementById('booking-form').reset();
+                document.getElementById('booking-form-section').classList.add('hidden');
+            } else {
+                alert('Please enter a valid email address.');
+            }
+        }
+    </script>
 </body>
 
 </html>
