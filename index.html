@@ -1,68 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Freelance IT Developer</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #0a0a1a;
-            color: #e0e0e0;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        header {
-            background: linear-gradient(90deg, #1a1a2e, #16213e);
-            padding: 20px 0;
-            text-align: center;
-        }
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            color: #4ecca3;
-        }
-        .tagline {
-            font-style: italic;
-            color: #7f8c8d;
-        }
-        .skills {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 30px;
-        }
-        .skill {
-            background-color: #1a1a2e;
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-        .skill:hover {
-            transform: translateY(-5px);
-        }
-        .cta {
-            background-color: #4ecca3;
-            color: #0a0a1a;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .cta:hover {
-            background-color: #45b7a0;
-        }
-    </style>
+    <title>Arjun Pansheriya - Freelance IT Developer</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
+    <div class="background-animation"></div>
     <header>
         <div class="container">
             <h1>Arjun Pansheriya</h1>
@@ -71,15 +18,26 @@
     </header>
     <main class="container">
         <section class="skills">
-            <div class="skill">Python</div>
-            <div class="skill">HTML5</div>
-            <div class="skill">CSS3</div>
-            <div class="skill">JavaScript</div>
-            <div class="skill">SQL</div>
+            <div class="skill" data-skill="python">Python</div>
+            <div class="skill" data-skill="html5">HTML5</div>
+            <div class="skill" data-skill="css3">CSS3</div>
+            <div class="skill" data-skill="javascript">JavaScript</div>
+            <div class="skill" data-skill="sql">SQL</div>
+            <div class="skill" data-skill="react">React</div>
+            <div class="skill" data-skill="nodejs">Node.js</div>
+            <div class="skill" data-skill="php">PHP</div>
+            <div class="skill" data-skill="typescript">TypeScript</div>
+            <div class="skill" data-skill="docker">Docker</div>
         </section>
-        <section style="text-align: center; margin-top: 50px;">
+        <section id="skill-description" class="skill-description hidden">
+            <h2 id="skill-title"></h2>
+            <p id="skill-text"></p>
+        </section>
+        <section class="cta-section">
             <button class="cta">Hire Me</button>
         </section>
     </main>
+    <script src="script.js"></script>
 </body>
+
 </html>
