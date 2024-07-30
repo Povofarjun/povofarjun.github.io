@@ -193,8 +193,8 @@ h1 {
 .about {
     display: flex;
     align-items: right;
+    text-align: justify;
     margin-top: 50px;
-    margin-left: 100px;
     background: rgba(27, 38, 59, 0.8);
     padding: 30px;
     border-radius: 10px;
