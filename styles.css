@@ -145,3 +145,20 @@ h1 {
         width: 100%;
     }
 }
+
+.about {
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
+    background: rgba(26, 26, 46, 0.8);
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.profile-pic {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-right: 30px;
+    object-fit: cover;
+}
