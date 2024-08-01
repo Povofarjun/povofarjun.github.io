@@ -5,32 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arjun Pansheriya - Innovative IT Developer</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 </head>
 
 <body>
-    <header>
+    <div id="particles-js"></div>
+    <div class="content">
         <nav>
             <ul>
-                <li><a href="#hero">Home</a></li>
+                <li><a href="#home">Home</a></li>
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#about">About</a></li>
             </ul>
         </nav>
-    </header>
-
-    <section id="hero">
-        <div class="container">
-            <h1>Arjun Pansheriya</h1>
-            <p>Innovative IT Developer | Turning Ideas into Reality</p>
-            <a href="mailto:arjunpansheria@gmail.com" class="btn">Contact Me</a>
-        </div>
-    </section>
-
-        <div id="particles-js"></div>
-
         <div class="language-selector">
             <select id="language-select" onchange="changeLanguage()">
                 <option value="en">English</option>
@@ -38,6 +25,11 @@
                 <option value="fr">Français</option>
             </select>
         </div>
+        <h1>Arjun Pansheriya</h1>
+        <p>Innovative IT Developer | Turning Ideas into Reality</p>
+        <a href="#contact" class="btn">Contact Me</a>
+    </div>
+
     <script>
         // Particles.js configuration
         particlesJS('particles-js', {
@@ -58,94 +50,24 @@
             retina_detect: true
         });
 
-        // Email function
-        document.querySelector('.btn').addEventListener('click', function (e) {
-            e.preventDefault();
-            const email = 'arjunpansheria@gmail.com';
-            const subject = encodeURIComponent('Inquiry from Website');
-            const body = encodeURIComponent('Hello Arjun,\n\nI came across your website and I\'m interested in discussing a potential project.\n\nBest regards,');
-            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
-        });
-
-        // Basic language change function (placeholder)
+        // Language change function (placeholder)
         function changeLanguage() {
             const lang = document.getElementById('language-select').value;
             alert(`Language changed to ${lang}. In a real implementation, this would update the page content.`);
         }
     </script>
-    <section id="skills">
-        <div class="container">
-            <h2>Expertise</h2>
-            <div class="skills-grid">
-                <div class="skill-item">
-                    <i class="fab fa-python"></i>
-                    <h3>Python</h3>
-                </div>
-                <div class="skill-item">
-                    <i class="fas fa-robot"></i>
-                    <h3>AI</h3>
-                </div>
-                <div class="skill-item">
-                    <i class="fas fa-code-branch"></i>
-                    <h3>API Integration</h3>
-                </div>
-                <div class="skill-item">
-                    <i class="fab fa-html5"></i>
-                    <h3>HTML5</h3>
-                </div>
-                <div class="skill-item">
-                    <i class="fab fa-css3-alt"></i>
-                    <h3>CSS3</h3>
-                </div>
-                <div class="skill-item">
-                    <i class="fab fa-js"></i>
-                    <h3>JavaScript</h3>
-                </div>
-                <div class="skill-item">
-                    <i class="fas fa-database"></i>
-                    <h3>SQL</h3>
-                </div>
-                <div class="skill-item">
-                    <i class="fab fa-react"></i>
-                    <h3>React</h3>
-                </div>
-                <div class="skill-item">
-                    <i class="fab fa-node-js"></i>
-                    <h3>Node.js</h3>
-                </div>
-                <div class="skill-item">
-                    <i class="fab fa-php"></i>
-                    <h3>PHP</h3>
-                </div>
-                <div class="skill-item">
-                    <i class="fab fa-docker"></i>
-                    <h3>Docker</h3>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <section id="about">
-        <div class="container">
-            <h2>About Me</h2>
-            <p>As an innovative IT developer, I specialize in turning complex ideas into elegant, efficient solutions.
-                With a strong foundation in various programming languages and cutting-edge technologies, I'm dedicated
-                to pushing the boundaries of what's possible in software development. My expertise in AI and API
-                integration, combined with a passion for clean, scalable code, ensures that your project will not just
-                meet but exceed expectations. When you work with me, you're choosing a partner committed to bringing
-                your vision to life with precision and creativity.</p>
-        </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2024 Arjun Pansheriya. All rights reserved.</p>
-    </footer>
-
-    <script>
-        document.querySelector('.btn').addEventListener('click', function (e) {
-            e.preventDefault();
-            window.location.href = 'mailto:arjunpansheria@gmail.com';
-        });
+    <!-- Tawk.to Live Chat Widget -->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function () {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/YOUR_TAWK_TO_ID/default';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
     </script>
 </body>
 
