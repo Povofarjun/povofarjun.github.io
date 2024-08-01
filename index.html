@@ -7,17 +7,18 @@
     <title>Arjun Pansheriya - Innovative IT Developer</title>
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <div id="particles-js"></div>
-    <div class="content">
+    <div class="content" id="hero">
         <h1>Arjun Pansheriya</h1>
         <p>Innovative IT Developer | Turning Ideas into Reality</p>
         <a href="#contact" class="btn">Contact Me</a>
     </div>
 
-    <div class="container">
+    <div class="container" id="skills">
         <h2>Expertise</h2>
         <div class="skills-grid">
             <div class="skill-item">
@@ -67,26 +68,15 @@
         </div>
     </div>
 
-    <script>
-        // Particles.js configuration
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 80, density: { enable: true, value_area: 800 } },
-                color: { value: '#ffffff' },
-                shape: { type: 'circle' },
-                opacity: { value: 0.5, random: false },
-                size: { value: 3, random: true },
-                line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.4, width: 1 },
-                move: { enable: true, speed: 6, direction: 'none', random: false, straight: false, out_mode: 'out', bounce: false }
-            },
-            interactivity: {
-                detect_on: 'canvas',
-                events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
-                modes: { grab: { distance: 400, line_linked: { opacity: 1 } }, bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 }, repulse: { distance: 200, duration: 0.4 }, push: { particles_nb: 4 }, remove: { particles_nb: 2 } }
-            },
-            retina_detect: true
-        });
-    </script>
+    <div class="container" id="about">
+        <h2>About Me</h2>
+        <p>As an innovative IT developer, I specialize in turning complex ideas into elegant, efficient solutions.
+            With a strong foundation in various programming languages and cutting-edge technologies, I'm dedicated
+            to pushing the boundaries of what's possible in software development. My expertise in AI and API
+            integration, combined with a passion for clean, scalable code, ensures that your project will not just
+            meet but exceed expectations. When you work with me, you're choosing a partner committed to bringing
+            your vision to life with precision and creativity.</p>
+    </div>
 
     <div id="info">Hover over the sphere to see skills</div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -175,16 +165,6 @@
         init();
     </script>
 
-    <div class="container">
-        <h2>About Me</h2>
-        <p>As an innovative IT developer, I specialize in turning complex ideas into elegant, efficient solutions.
-            With a strong foundation in various programming languages and cutting-edge technologies, I'm dedicated
-            to pushing the boundaries of what's possible in software development. My expertise in AI and API
-            integration, combined with a passion for clean, scalable code, ensures that yours project will not just
-            meet but exceed expectations. When you work with me, you're choosing a partner committed to bringing
-            your vision to life with precision and creativity.</p>
-    </div>
-
     <script type="text/javascript">
         var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
         (function () {
@@ -198,7 +178,7 @@
     </script>
     <footer>
         <p>&copy; 2024 Arjun Pansheriya. All rights reserved.</p>
-    </footer>s
+    </footer>
 </body>
 
 </html>
