@@ -4,98 +4,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arjun Pansheriya - Freelance IT Developer</title>
+    <title>Arjun Pansheriya - Innovative IT Developer</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 </head>
 
 <body>
-    <div class="background-animation"></div>
     <header>
+        <nav>
+            <ul>
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="hero">
         <div class="container">
             <h1>Arjun Pansheriya</h1>
-            <p class="tagline">Freelance IT Developer | Turning Ideas into Reality</p>
+            <p>Innovative IT Developer | Turning Ideas into Reality</p>
+            <a href="mailto:arjunpansheria@gmail.com" class="btn">Contact Me</a>
         </div>
-    </header>
-    <main class="container">
-        <section class="skills">
-            <div class="skill" data-skill="python" onclick="showSkillDescription('python')">Python</div>
-            <div class="skill" data-skill="html5" onclick="showSkillDescription('html5')">HTML5</div>
-            <div class="skill" data-skill="css3" onclick="showSkillDescription('css3')">CSS3</div>
-            <div class="skill" data-skill="javascript" onclick="showSkillDescription('javascript')">JavaScript</div>
-            <div class="skill" data-skill="sql" onclick="showSkillDescription('sql')">SQL</div>
-            <div class="skill" data-skill="react" onclick="showSkillDescription('react')">React</div>
-            <div class="skill" data-skill="nodejs" onclick="showSkillDescription('nodejs')">Node.js</div>
-            <div class="skill" data-skill="php" onclick="showSkillDescription('php')">PHP</div>
-            <div class="skill" data-skill="typescript" onclick="showSkillDescription('typescript')">TypeScript</div>
-            <div class="skill" data-skill="docker" onclick="showSkillDescription('docker')">Docker</div>
-        </section>
-        <section id="skill-description" class="skill-description hidden">
-            <h2 id="skill-title"></h2>
-            <p id="skill-text"></p>
-        </section>
-        <section class="cta-section">
-            <button id="hire-me-btn" class="cta" onclick="toggleBookingForm()">Hire Me</button>
-        </section>
-        <section id="booking-form-section" class="booking-form hidden">
-            <form id="booking-form" onsubmit="submitForm(event)">
-                <label for="email">Email:</label>
-                <input type="email" id="email" placeholder="Enter your email" required>
-                <button type="submit">Submit</button>
-            </form>
-        </section>
-        <section class="about">
-            <img src="pic.jpeg" alt="Arjun Pansheriya" class="profile-pic">
-            <h2>About Me</h2>
-            <p>As a freelance IT developer, I bring professionalism and expertise to every project. With a strong
-                background in
-                various programming languages and technologies, I'm committed to turning your ideas into reality.</p>
-        </section>
-    </main>
+    </section>
+
+        <div id="particles-js"></div>
+
+        <div class="language-selector">
+            <select id="language-select" onchange="changeLanguage()">
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="fr">Français</option>
+            </select>
+        </div>
     <script>
-        const skillInfo = {
-            python: { title: "Python Development", text: "Custom Python applications, data analysis, and automation scripts." },
-            html5: { title: "HTML5 Development", text: "Modern, semantic HTML5 structures for robust web applications." },
-            css3: { title: "CSS3 Styling", text: "Responsive and attractive designs using the latest CSS3 features." },
-            javascript: { title: "JavaScript Programming", text: "Dynamic and interactive web applications using vanilla JS and modern frameworks." },
-            sql: { title: "SQL Database Management", text: "Database design, optimization, and management for various SQL databases." },
-            react: { title: "React Development", text: "Building scalable front-end applications with React." },
-            nodejs: { title: "Node.js Development", text: "Server-side JavaScript applications and APIs using Node.js." },
-            php: { title: "PHP Development", text: "Dynamic websites and applications using PHP." },
-            typescript: { title: "TypeScript Development", text: "Type-safe JavaScript development for large-scale applications." },
-            docker: { title: "Docker Containerization", text: "Containerizing applications for consistent deployment across environments." }
-        };
+        // Particles.js configuration
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#ffffff' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5, random: false },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 6, direction: 'none', random: false, straight: false, out_mode: 'out', bounce: false }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
+                modes: { grab: { distance: 400, line_linked: { opacity: 1 } }, bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 }, repulse: { distance: 200, duration: 0.4 }, push: { particles_nb: 4 }, remove: { particles_nb: 2 } }
+            },
+            retina_detect: true
+        });
 
-        function showSkillDescription(skill) {
-            const skillDescription = document.getElementById('skill-description');
-            const skillTitle = document.getElementById('skill-title');
-            const skillText = document.getElementById('skill-text');
+        // Email function
+        document.querySelector('.btn').addEventListener('click', function (e) {
+            e.preventDefault();
+            const email = 'arjunpansheria@gmail.com';
+            const subject = encodeURIComponent('Inquiry from Website');
+            const body = encodeURIComponent('Hello Arjun,\n\nI came across your website and I\'m interested in discussing a potential project.\n\nBest regards,');
+            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+        });
 
-            if (skillInfo[skill]) {
-                skillTitle.textContent = skillInfo[skill].title;
-                skillText.textContent = skillInfo[skill].text;
-                skillDescription.classList.remove('hidden');
-            }
+        // Basic language change function (placeholder)
+        function changeLanguage() {
+            const lang = document.getElementById('language-select').value;
+            alert(`Language changed to ${lang}. In a real implementation, this would update the page content.`);
         }
+    </script>
+    <section id="skills">
+        <div class="container">
+            <h2>Expertise</h2>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <i class="fab fa-python"></i>
+                    <h3>Python</h3>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-robot"></i>
+                    <h3>AI</h3>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-code-branch"></i>
+                    <h3>API Integration</h3>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-html5"></i>
+                    <h3>HTML5</h3>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-css3-alt"></i>
+                    <h3>CSS3</h3>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-js"></i>
+                    <h3>JavaScript</h3>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-database"></i>
+                    <h3>SQL</h3>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-react"></i>
+                    <h3>React</h3>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-node-js"></i>
+                    <h3>Node.js</h3>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-php"></i>
+                    <h3>PHP</h3>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-docker"></i>
+                    <h3>Docker</h3>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        function toggleBookingForm() {
-            const bookingFormSection = document.getElementById('booking-form-section');
-            bookingFormSection.classList.toggle('hidden');
-        }
+    <section id="about">
+        <div class="container">
+            <h2>About Me</h2>
+            <p>As an innovative IT developer, I specialize in turning complex ideas into elegant, efficient solutions.
+                With a strong foundation in various programming languages and cutting-edge technologies, I'm dedicated
+                to pushing the boundaries of what's possible in software development. My expertise in AI and API
+                integration, combined with a passion for clean, scalable code, ensures that your project will not just
+                meet but exceed expectations. When you work with me, you're choosing a partner committed to bringing
+                your vision to life with precision and creativity.</p>
+        </div>
+    </section>
 
-        function submitForm(event) {
-            event.preventDefault();
-            const email = document.getElementById('email').value;
-            if (email) {
-                alert(`Thank you for your interest! We will contact you at ${email}.`);
-                document.getElementById('booking-form').reset();
-                document.getElementById('booking-form-section').classList.add('hidden');
-            } else {
-                alert('Please enter a valid email address.');
-            }
-        }
+    <footer>
+        <p>&copy; 2024 Arjun Pansheriya. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.querySelector('.btn').addEventListener('click', function (e) {
+            e.preventDefault();
+            window.location.href = 'mailto:arjunpansheria@gmail.com';
+        });
     </script>
 </body>
 
