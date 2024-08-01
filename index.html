@@ -17,6 +17,56 @@
         <a href="#contact" class="btn">Contact Me</a>
     </div>
 
+    <div class="container">
+        <h2>Expertise</h2>
+        <div class="skills-grid">
+            <div class="skill-item">
+                <i class="fab fa-python"></i>
+                <h3>Python</h3>
+            </div>
+            <div class="skill-item">
+                <i class="fab fa-html5"></i>
+                <h3>HTML5</h3>
+            </div>
+            <div class="skill-item">
+                <i class="fab fa-css3-alt"></i>
+                <h3>CSS3</h3>
+            </div>
+            <div class="skill-item">
+                <i class="fab fa-js"></i>
+                <h3>JavaScript</h3>
+            </div>
+            <div class="skill-item">
+                <i class="fas fa-database"></i>
+                <h3>SQL</h3>
+            </div>
+            <div class="skill-item">
+                <i class="fab fa-react"></i>
+                <h3>React</h3>
+            </div>
+            <div class="skill-item">
+                <i class="fab fa-node-js"></i>
+                <h3>Node.js</h3>
+            </div>
+            <div class="skill-item">
+                <i class="fab fa-php"></i>
+                <h3>PHP</h3>
+            </div>
+            <div class="skill-item">
+                <i class="fab fa-docker"></i>
+                <h3>Docker</h3>
+            </div>
+            <div class="skill-item">
+                <i class="fas fa-robot"></i>
+                <h3>AI</h3>
+            </div>
+            <div class="skill-item">
+                <i class="fas fa-code-branch"></i>
+                <h3>API Integration</h3>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Particles.js configuration
         particlesJS('particles-js', {
@@ -38,6 +88,103 @@
         });
     </script>
 
+    <div id="info">Hover over the sphere to see skills</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        let scene, camera, renderer, sphere;
+        const skills = ['Python', 'JavaScript', 'React', 'Node.js', 'SQL', 'HTML/CSS', 'Docker', 'AI', 'API Integration'];
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            const geometry = new THREE.SphereGeometry(5, 32, 32);
+            const material = new THREE.MeshBasicMaterial({ color: 0x00ffff, wireframe: true });
+            sphere = new THREE.Mesh(geometry, material);
+            scene.add(sphere);
+
+            camera.position.z = 10;
+
+            addSkillsToSphere();
+            animate();
+
+            window.addEventListener('resize', onWindowResize, false);
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
+        }
+
+        function addSkillsToSphere() {
+            skills.forEach((skill, index) => {
+                const phi = Math.acos(-1 + (2 * index) / skills.length);
+                const theta = Math.sqrt(skills.length * Math.PI) * phi;
+
+                const geometry = new THREE.SphereGeometry(0.2, 32, 32);
+                const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+                const skillSphere = new THREE.Mesh(geometry, material);
+
+                skillSphere.position.setFromSphericalCoords(5, phi, theta);
+                sphere.add(skillSphere);
+
+                const skillDiv = document.createElement('div');
+                skillDiv.className = 'label';
+                skillDiv.textContent = skill;
+                skillDiv.style.marginTop = '-1em';
+                const skillLabel = new THREE.CSS2DObject(skillDiv);
+                skillLabel.position.copy(skillSphere.position);
+                sphere.add(skillLabel);
+            });
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            sphere.rotation.x += 0.001;
+            sphere.rotation.y += 0.001;
+            renderer.render(scene, camera);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function onDocumentMouseMove(event) {
+            event.preventDefault();
+            const mouse = new THREE.Vector2(
+                (event.clientX / window.innerWidth) * 2 - 1,
+                -(event.clientY / window.innerHeight) * 2 + 1
+            );
+            const raycaster = new THREE.Raycaster();
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(sphere.children);
+
+            sphere.children.forEach(child => {
+                if (child.material) {
+                    child.material.color.setHex(0xffffff);
+                }
+            });
+
+            if (intersects.length > 0) {
+                intersects[0].object.material.color.setHex(0xff00ff);
+                document.getElementById('info').textContent = skills[sphere.children.indexOf(intersects[0].object) / 2];
+            }
+        }
+
+        init();
+    </script>
+
+    <div class="container">
+        <h2>About Me</h2>
+        <p>As an innovative IT developer, I specialize in turning complex ideas into elegant, efficient solutions.
+            With a strong foundation in various programming languages and cutting-edge technologies, I'm dedicated
+            to pushing the boundaries of what's possible in software development. My expertise in AI and API
+            integration, combined with a passion for clean, scalable code, ensures that yours project will not just
+            meet but exceed expectations. When you work with me, you're choosing a partner committed to bringing
+            your vision to life with precision and creativity.</p>
+    </div>
+
     <script type="text/javascript">
         var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
         (function () {
@@ -49,6 +196,9 @@
             s0.parentNode.insertBefore(s1, s0);
         })();
     </script>
+    <footer>
+        <p>&copy; 2024 Arjun Pansheriya. All rights reserved.</p>
+    </footer>s
 </body>
 
 </html>
