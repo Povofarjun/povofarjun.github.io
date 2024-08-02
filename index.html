@@ -29,6 +29,10 @@
             overflow: hidden;
         }
 
+        #matrix canvas{
+            cursor: default;
+        }
+
         .content {
             position: absolute;
             top: 50%;
@@ -94,22 +98,31 @@
         }
 
         const draw = () => {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            ctx.fillStyle = '#0F0';
-            ctx.font = fontSize + 'px monospace';
+                ctx.font = fontSize + 'px monospace';
 
-            for (let i = 0; i < rainDrops.length; i++) {
-                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                for (let i = 0; i < rainDrops.length; i++) {
+                    const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
 
-                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    rainDrops[i] = 0;
+                    // Check for hover BEFORE setting fillStyle
+                    if (ctx.isPointInPath(i * fontSize, rainDrops[i] * fontSize)) {
+                        ctx.fillStyle = '#FF00FF'; // Hover color
+                    } else {
+                        ctx.fillStyle = '#00FF00';  // Default color
+                    }
+
+                    ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize); // Draw the text
+
+                    if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        rainDrops[i] = 0;
+                    }
+
+                    rainDrops[i]++; // Move the rain drop
                 }
-                rainDrops[i]++;
-            }
-        };
+            };
+
 
         setInterval(draw, 40);
 
