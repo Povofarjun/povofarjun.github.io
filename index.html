@@ -4,53 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arjun Pansheriya - Innovative IT Developer</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <title>Arjun Pansheriya</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
-
-        :root {
-            --bg-color: #0a0a1a;
-            --text-color: #e0e0ff;
-            --accent-color: #00ffff;
-            --secondary-color: #ff00ff;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
         body,
         html {
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
             margin: 0;
             padding: 0;
-            height: 100%;
+            font-family: 'Press Start 2P', cursive;
             overflow: hidden;
+            background-color: black;
+            color: lime;
         }
 
-        canvas {
-            display: block;
+        #matrix {
             position: fixed;
             top: 0;
             left: 0;
-            z-index: -1;
-        }
-
-        #info {
-            position: absolute;
-            top: 10px;
-            width: 100%;
-            text-align: center;
-            color: white;
-            font-family: Arial, sans-serif;
-            z-index: 10;
-        }
-
-        #particles-js {
-            position: fixed;
             width: 100%;
             height: 100%;
-            z-index: -2;
+            z-index: -1;
+            background: black;
+            overflow: hidden;
         }
 
         .content {
@@ -59,246 +35,89 @@
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
-            color: var(--text-color);
             z-index: 1;
         }
 
         h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 4em;
-            margin: 0;
-            color: var(--accent-color);
+            font-size: 3em;
+            margin: 0.2em 0;
+            color: lime;
         }
 
         p {
             font-size: 1.5em;
+            margin: 0.5em 0;
+            color: lime;
         }
 
-        .btn {
+        .button {
             display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 1.2em;
-            color: var(--text-color);
-            background-color: var(--accent-color);
-            text-decoration-color: var(--bg-color);
+            margin-top: 1em;
+            padding: 0.75em 2em;
+            font-size: 1em;
+            color: black;
+            background-color: lime;
             border: none;
-            border-radius: 5px;
+            border-radius: 20px;
+            cursor: pointer;
             text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn:hover {
-            background-color: var(--secondary-color);
-            text-decoration-color: var(--bg-color);
-        }
-
-        .container {
-            padding: 50px 20px;
-            text-align: center;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .skill-item {
-            background-color: #1a1a2e;
-            padding: 20px;
-            border-radius: 10px;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-        }
-
-        .skill-item:hover {
-            transform: scale(1.05);
-            background-color: var(--secondary-color);
-        }
-
-        .skill-item i {
-            font-size: 2em;
-            margin-bottom: 10px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #1a1a2e;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-            z-index: 10;
-        }
-
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 2em;
-            }
-
-            p {
-                font-size: 1em;
-            }
-
-            .btn {
-                font-size: 1em;
-                padding: 8px 16px;
-            }
         }
     </style>
 </head>
 
 <body>
-    <div id="particles-js"></div>
-    <div class="content" id="hero">
+    <div id="matrix"></div>
+    <div class="content">
+        <p>Welcome to my portfolio</p>
         <h1>Arjun Pansheriya</h1>
-        <p>Innovative IT Developer | Turning Ideas into Reality</p>
-        <a href="#contact" class="btn">Contact Me</a>
+        <a href="mailto:arjunpansheria@gmail.com" class="button">Connect</a>
     </div>
 
-    <div id="info">Hover over the sphere to see skills</div>
-    <div id="sphere-container"></div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        let scene, camera, renderer, sphere;
-        const skills = ['Python', 'JavaScript', 'React', 'Node.js', 'SQL', 'HTML/CSS', 'Docker', 'AI', 'API Integration'];
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        document.getElementById('matrix').appendChild(canvas);
 
-        function init() {
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            document.body.appendChild(renderer.domElement);
+        const katakana = 'アカサタナハマヤラワガザダバパアカサタナハマヤラワガザダバパアカサタナハマヤラワガザダバパアカサタナハマヤラワガザダバパアカサタナハマヤラワガザダバパアカサタナハマヤラワガザダバパアカサタナハマヤラワガザダバパアカサタナハマヤラワガザダバパ';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const nums = '0123456789012345678901234567890123456789012345678901234567890123456789';
+        const alphabet = katakana + latin + nums;
 
-            const geometry = new THREE.SphereGeometry(5, 64, 64);
-            const material = new THREE.MeshPhongMaterial({
-                color: 0x00ffff,
-                wireframe: true,
-                wireframeLinewidth: 2,
-                transparent: true,
-                opacity: 0.7
-            });
-            sphere = new THREE.Mesh(geometry, material);
-            scene.add(sphere);
+        const fontSize = 10;
+        const columns = canvas.width / fontSize;
+        const rainDrops = [];
 
-            const light = new THREE.PointLight(0xffffff, 1, 100);
-            light.position.set(10, 10, 10);
-            scene.add(light);
-
-            camera.position.z = 10;
-
-            addSkillsToSphere();
-            animate();
-
-            window.addEventListener('resize', onWindowResize, false);
-            renderer.domElement.addEventListener('mousemove', onDocumentMouseMove, false);
+        for (let x = 0; x < columns; x++) {
+            rainDrops[x] = 1;
         }
 
-        function addSkillsToSphere() {
-            const loader = new THREE.FontLoader();
-            loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
-                const group = new THREE.Group();
-                skills.forEach((skill, index) => {
-                    const phi = Math.acos(-1 + (2 * index) / skills.length);
-                    const theta = Math.sqrt(skills.length * Math.PI) * phi;
+        const draw = () => {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                    const geometry = new THREE.SphereGeometry(0.2, 32, 32);
-                    const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
-                    const skillSphere = new THREE.Mesh(geometry, material);
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px monospace';
 
-                    skillSphere.position.setFromSphericalCoords(5, phi, theta);
-                    group.add(skillSphere);
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
 
-                    const textGeometry = new THREE.TextGeometry(skill, {
-                        font: font,
-                        size: 0.2,
-                        height: 0.05
-                    });
-                    const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-                    const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-                    textMesh.position.copy(skillSphere.position);
-                    textMesh.position.multiplyScalar(1.2);
-                    textMesh.lookAt(new THREE.Vector3());
-                    group.add(textMesh);
-                });
-                sphere.add(group);
-            });
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-            sphere.rotation.x += 0.001;
-            sphere.rotation.y += 0.001;
-            renderer.render(scene, camera);
-        }
-
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-        function onDocumentMouseMove(event) {
-            event.preventDefault();
-            const mouse = new THREE.Vector2(
-                (event.clientX / window.innerWidth) * 2 - 1,
-                -(event.clientY / window.innerHeight) * 2 + 1
-            );
-            const raycaster = new THREE.Raycaster();
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObjects(sphere.children[0].children);
-
-            sphere.children[0].children.forEach(child => {
-                if (child.material) {
-                    child.material.color.setHex(0xffffff);
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
                 }
-            });
-
-            if (intersects.length > 0) {
-                intersects[0].object.material.color.setHex(0xff00ff);
-                document.getElementById('info').textContent = skills[Math.floor(sphere.children[0].children.indexOf(intersects[0].object) / 2)];
+                rainDrops[i]++;
             }
-        }
+        };
 
-        init();
+        setInterval(draw, 40);
 
-        // Particle.js configuration
-        particlesJS("particles-js", {
-            particles: {
-                number: { value: 80, density: { enable: true, value_area: 800 } },
-                color: { value: "#ffffff" },
-                shape: { type: "circle", stroke: { width: 0, color: "#000000" }, polygon: { nb_sides: 5 }, image: { src: "img/github.svg", width: 100, height: 100 } },
-                opacity: { value: 0.5, random: false, anim: { enable: false, speed: 1, opacity_min: 0.1, sync: false } },
-                size: { value: 3, random: true, anim: { enable: false, speed: 40, size_min: 0.1, sync: false } },
-                line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 },
-                move: { enable: true, speed: 6, direction: "none", random: false, straight: false, out_mode: "out", bounce: false, attract: { enable: false, rotateX: 600, rotateY: 1200 } }
-            },
-            interactivity: {
-                detect_on: "canvas",
-                events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" }, resize: true },
-                modes: { grab: { distance: 400, line_linked: { opacity: 1 } }, bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 }, repulse: { distance: 200, duration: 0.4 }, push: { particles_nb: 4 }, remove: { particles_nb: 2 } }
-            },
-            retina_detect: true
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         });
     </script>
-
-    <script type="text/javascript">
-        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-        (function () {
-            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-            s1.async = true;
-            s1.src = 'https://embed.tawk.to/66ab8cdb1601a2195b9f775f/1i471sfie';
-            s1.charset = 'UTF-8';
-            s1.setAttribute('crossorigin', '*');
-            s0.parentNode.insertBefore(s1, s0);
-        })();
-    </script>
-    <footer>
-        <p>&copy; 2024 Arjun Pansheriya. All rights reserved.</p>
-    </footer>
 </body>
 
 </html>
