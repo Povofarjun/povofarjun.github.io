@@ -6,16 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arjun Pansheriya</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Sans+Mono:wght@500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap');
 
-        body,
-        html {
+        :root {
+            --primary-color: #00ff00;
+            --background-color: #000000;
+            --hover-color: #ff00ff;
+        }
+
+        body, html {
             margin: 0;
             padding: 0;
-            font-family: 'Press Start 2P', cursive;
+            font-family: 'Ubuntu Mono', monospace;
             overflow: hidden;
-            background-color: black;
-            color: lime;
+            background-color: var(--background-color);
+            color: var(--primary-color);
         }
 
         #matrix {
@@ -25,11 +30,9 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: black;
-            overflow: hidden;
         }
 
-        #matrix canvas{
+        #matrix canvas {
             cursor: default;
         }
 
@@ -40,44 +43,45 @@
             transform: translate(-50%, -50%);
             text-align: center;
             z-index: 1;
+            width: 90%;
+            max-width: 600px;
         }
 
         h1 {
-            font-size: 5em;
+            font-size: clamp(2rem, 5vw, 5rem);
             margin: 0.2em 0;
-            color: lime;
+            color: var(--primary-color);
         }
 
         p {
-            font-size: 1.5em;
+            font-size: clamp(1rem, 2vw, 1.5rem);
             margin: 0.5em 0;
-            color: lime;
+            color: var(--primary-color);
         }
 
         .button {
             display: inline-block;
             margin-top: 1em;
             padding: 0.5em 1em;
-            font-size: 1.5em;
-            color: black;
-            background-color: lime;
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            color: var(--background-color);
+            background-color: var(--primary-color);
             border: none;
             border-radius: 20px;
             cursor: pointer;
             text-decoration: none;
+            transition: background-color 0.3s ease;
         }
 
-        @media (min-width:768px){
-h1{
-font-size:5em;
-}
-p{
-font-size:1.5em;
-}
-.button{
-font-size:1.5em;
-}
-}
+        .button:hover {
+            background-color: var(--hover-color);
+        }
+
+        @media (max-width: 480px) {
+            .content {
+                width: 95%;
+            }
+        }
     </style>
 </head>
 
@@ -92,55 +96,71 @@ font-size:1.5em;
     <script>
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        document.getElementById('matrix').appendChild(canvas);
+        const matrixContainer = document.getElementById('matrix');
 
-        const katakana = 'アカサタナハマヤラワガザダバパアカサタナハマヤラワガザダバパアカサタナハマヤラワガザダバパアカサタナハマヤラワガザダバパアカサタナハマヤラワガザダバパアカサタナハマヤラワガザダバパアカサタナハマヤラワガザダバパアカサタナハマヤラワガザダバパ';
-        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const nums = '0123456789012345678901234567890123456789012345678901234567890123456789';
-        const alphabet = katakana + latin + nums;
-
-        const fontSize = 10;
-        const columns = canvas.width / fontSize;
-        const rainDrops = [];
-
-        for (let x = 0; x < columns; x++) {
-            rainDrops[x] = 1;
-        }
-
-        const draw = () => {
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                ctx.font = fontSize + 'px monospace';
-
-                for (let i = 0; i < rainDrops.length; i++) {
-                    const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-
-                    // Check for hover BEFORE setting fillStyle
-                    if (ctx.isPointInPath(i * fontSize, rainDrops[i] * fontSize)) {
-                        ctx.fillStyle = '#FF00FF'; // Hover color
-                    } else {
-                        ctx.fillStyle = '#00FF00';  // Default color
-                    }
-
-                    ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize); // Draw the text
-
-                    if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                        rainDrops[i] = 0;
-                    }
-
-                    rainDrops[i]++; // Move the rain drop
-                }
-            };
-
-
-        setInterval(draw, 40);
-
-        window.addEventListener('resize', () => {
+        function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+        }
+
+        resizeCanvas();
+        matrixContainer.appendChild(canvas);
+
+        const katakana = 'アカサタナハマヤラワガザダバパ';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const nums = '0123456789';
+        const alphabet = katakana + latin + nums;
+
+        const fontSize = 16;
+        let columns = canvas.width / fontSize;
+        let rainDrops = [];
+
+        function initializeRainDrops() {
+            columns = canvas.width / fontSize;
+            rainDrops = Array(columns).fill(1);
+        }
+
+        initializeRainDrops();
+
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.font = fontSize + 'px monospace';
+            ctx.fillStyle = '#00FF00';
+
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        }
+
+        let animationId;
+
+        function animate() {
+            draw();
+            animationId = requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initializeRainDrops();
+        });
+
+        // Pause animation when tab is not visible to save resources
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                cancelAnimationFrame(animationId);
+            } else {
+                animate();
+            }
         });
     </script>
 </body>
