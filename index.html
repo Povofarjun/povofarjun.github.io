@@ -21,6 +21,7 @@
             overflow: hidden;
             background-color: var(--background-color);
             color: var(--primary-color);
+            transition: background-color 0.3s, color 0.3s;
         }
 
         #matrix {
@@ -77,6 +78,13 @@
             background-color: var(--hover-color);
         }
 
+        #theme-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 2;
+        }
+
         @media (max-width: 480px) {
             .content {
                 width: 95%;
@@ -92,6 +100,11 @@
         <h1>Arjun Pansheriya</h1>
         <a href="mailto:arjunpansheria@gmail.com" class="button">Connect</a>
     </div>
+    <select id="theme-switcher">
+        <option value="matrix">Matrix</option>
+        <option value="cyberpunk">Cyberpunk</option>
+        <option value="professional">Professional</option>
+    </select>
 
     <script>
         const canvas = document.createElement('canvas');
@@ -122,21 +135,24 @@
 
         initializeRainDrops();
 
+        let animationSpeed = 1;
+        let primaryColor = '#00FF00';
+
         function draw() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillStyle = `rgba(0, 0, 0, ${0.05 * animationSpeed})`;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             ctx.font = fontSize + 'px monospace';
-            ctx.fillStyle = '#00FF00';
 
             for (let i = 0; i < rainDrops.length; i++) {
                 const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillStyle = primaryColor;
                 ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
 
                 if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
                     rainDrops[i] = 0;
                 }
-                rainDrops[i]++;
+                rainDrops[i] += animationSpeed;
             }
         }
 
@@ -160,6 +176,50 @@
                 cancelAnimationFrame(animationId);
             } else {
                 animate();
+            }
+        });
+
+        // Theme switcher functionality
+        const themeSwitcher = document.getElementById('theme-switcher');
+        const root = document.documentElement;
+
+        const themes = {
+            matrix: {
+                primaryColor: '#00ff00',
+                backgroundColor: '#000000',
+                hoverColor: '#ff00ff',
+                animationSpeed: 1
+            },
+            cyberpunk: {
+                primaryColor: '#00ffff',
+                backgroundColor: '#120458',
+                hoverColor: '#ff00ff',
+                animationSpeed: 1.5
+            },
+            professional: {
+                primaryColor: '#007bff',
+                backgroundColor: '#f8f9fa',
+                hoverColor: '#0056b3',
+                animationSpeed: 0.5
+            }
+        };
+
+        themeSwitcher.addEventListener('change', (e) => {
+            const selectedTheme = themes[e.target.value];
+            root.style.setProperty('--primary-color', selectedTheme.primaryColor);
+            root.style.setProperty('--background-color', selectedTheme.backgroundColor);
+            root.style.setProperty('--hover-color', selectedTheme.hoverColor);
+            primaryColor = selectedTheme.primaryColor;
+            animationSpeed = selectedTheme.animationSpeed;
+        });
+
+        // Interactive matrix animation
+        canvas.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            const columnIndex = Math.floor(mouseX / fontSize);
+            if (columnIndex >= 0 && columnIndex < rainDrops.length) {
+                rainDrops[columnIndex] = mouseY / fontSize;
             }
         });
     </script>
