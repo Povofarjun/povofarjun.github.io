@@ -83,9 +83,42 @@
             transform: scale(1.05);
         }
 
+        #terminal {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 300px;
+            height: 200px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--primary-color);
+            padding: 10px;
+            font-family: monospace;
+            font-size: 14px;
+            color: var(--primary-color);
+            overflow-y: auto;
+            display: none;
+        }
+
+        #skills {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-align: right;
+        }
+
+        .skill {
+            font-size: 1rem;
+            margin: 5px 0;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
         @media (max-width: 480px) {
             .content {
                 width: 95%;
+            }
+            #terminal, #skills {
+                display: none;
             }
         }
     </style>
@@ -97,6 +130,15 @@
         <p>Welcome to my World!</p>
         <h1>Arjun Pansheriya</h1>
         <a href="mailto:arjunpansheria@gmail.com" class="button">Connect</a>
+        <a href="#" class="button" id="show-terminal">Access Terminal</a>
+    </div>
+    <div id="terminal"></div>
+    <div id="skills">
+        <div class="skill">Python</div>
+        <div class="skill">JavaScript</div>
+        <div class="skill">Machine Learning</div>
+        <div class="skill">Web Development</div>
+        <div class="skill">Data Analysis</div>
     </div>
 
     <script>
@@ -104,7 +146,7 @@
         const ctx = canvas.getContext('2d');
 
         let width, height, columns;
-        const charSize = 20;
+        const charSize = 14;
 
         function setup() {
             width = canvas.width = window.innerWidth;
@@ -128,7 +170,7 @@
                 const text = chars[Math.floor(Math.random() * chars.length)];
                 ctx.fillText(text, i * charSize, drops[i] * charSize);
 
-                if (drops[i] * charSize > height && Math.random() > 0.975) {
+                if (drops[i] * charSize > height && Math.random() > 0.99) {
                     drops[i] = 0;
                 }
                 drops[i]++;
@@ -150,7 +192,6 @@
             animate();
         });
 
-        // Pause animation when tab is not visible to save resources
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) {
                 cancelAnimationFrame(animationId);
@@ -158,6 +199,72 @@
                 animate();
             }
         });
+
+        // Terminal functionality
+        const terminal = document.getElementById('terminal');
+        const showTerminalBtn = document.getElementById('show-terminal');
+
+        showTerminalBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            terminal.style.display = terminal.style.display === 'none' ? 'block' : 'none';
+            if (terminal.style.display === 'block') {
+                terminalWrite('Welcome to Arjun\'s terminal. Type "help" for available commands.');
+            }
+        });
+
+        function terminalWrite(text) {
+            terminal.innerHTML += text + '<br>';
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        document.addEventListener('keypress', (e) => {
+            if (terminal.style.display === 'block' && e.key === 'Enter') {
+                const command = terminal.innerHTML.split('<br>').pop();
+                handleCommand(command);
+            }
+        });
+
+        function handleCommand(command) {
+            switch (command.toLowerCase()) {
+                case 'help':
+                    terminalWrite('Available commands: about, skills, projects, clear');
+                    break;
+                case 'about':
+                    terminalWrite('Arjun Pansheriya: A passionate developer with interests in AI and web technologies.');
+                    break;
+                case 'skills':
+                    terminalWrite('Skills: Python, JavaScript, Machine Learning, Web Development, Data Analysis');
+                    break;
+                case 'projects':
+                    terminalWrite('Projects: [Your projects here]');
+                    break;
+                case 'clear':
+                    terminal.innerHTML = '';
+                    break;
+                default:
+                    terminalWrite('Unknown command. Type "help" for available commands.');
+            }
+        }
+
+        // Skills animation
+        const skills = document.querySelectorAll('.skill');
+        let currentSkill = 0;
+
+        function showNextSkill() {
+            if (currentSkill < skills.length) {
+                skills[currentSkill].style.opacity = 1;
+                currentSkill++;
+                setTimeout(showNextSkill, 1000);
+            } else {
+                setTimeout(() => {
+                    skills.forEach(skill => skill.style.opacity = 0);
+                    currentSkill = 0;
+                    setTimeout(showNextSkill, 1000);
+                }, 3000);
+            }
+        }
+
+        showNextSkill();
     </script>
 </body>
 
