@@ -6,7 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arjun Pansheriya</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap');
+        @font-face {
+            font-family: 'Matrix Code NFI';
+            src: url('https://cdnjs.cloudflare.com/ajax/libs/matrixfont/1.0.0/matrix-code-nfi.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
 
         :root {
             --primary-color: #00ff00;
@@ -17,7 +23,7 @@
         body, html {
             margin: 0;
             padding: 0;
-            font-family: 'Ubuntu Mono', monospace;
+            font-family: 'Matrix Code NFI', monospace;
             overflow: hidden;
             background-color: var(--background-color);
             color: var(--primary-color);
@@ -30,10 +36,6 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-        }
-
-        #matrix canvas {
-            cursor: default;
         }
 
         .content {
@@ -51,6 +53,7 @@
             font-size: clamp(2rem, 5vw, 5rem);
             margin: 0.2em 0;
             color: var(--primary-color);
+            text-shadow: 0 0 10px var(--primary-color);
         }
 
         p {
@@ -70,37 +73,14 @@
             border-radius: 20px;
             cursor: pointer;
             text-decoration: none;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px var(--primary-color);
         }
 
         .button:hover {
             background-color: var(--hover-color);
-        }
-
-        #tic-tac-toe {
-            display: none;
-            margin-top: 2em;
-            text-align: center;
-        }
-
-        .board {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 5px;
-            margin: 0 auto;
-            width: 200px;
-        }
-
-        .cell {
-            width: 60px;
-            height: 60px;
-            background-color: var(--primary-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2em;
-            cursor: pointer;
-            color: var(--background-color);
+            box-shadow: 0 0 20px var(--hover-color);
+            transform: scale(1.05);
         }
 
         @media (max-width: 480px) {
@@ -112,65 +92,46 @@
 </head>
 
 <body>
-    <div id="matrix"></div>
+    <canvas id="matrix"></canvas>
     <div class="content">
         <p>Welcome to my World!</p>
         <h1>Arjun Pansheriya</h1>
         <a href="mailto:arjunpansheria@gmail.com" class="button">Connect</a>
-        <button id="play-game" class="button">Play Tic Tac Toe</button>
-        <div id="tic-tac-toe">
-            <div class="board">
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
-            </div>
-            <p id="game-status"></p>
-        </div>
     </div>
 
     <script>
-        const canvas = document.createElement('canvas');
+        const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
-        const matrixContainer = document.getElementById('matrix');
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        let width, height, columns;
+        const charSize = 20;
+
+        function setup() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            columns = Math.floor(width / charSize);
         }
 
-        resizeCanvas();
-        matrixContainer.appendChild(canvas);
+        setup();
 
-        const katakana = 'アカサタナハマヤラワガザダバパ';
-        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const nums = '0123456789';
-        const alphabet = katakana + latin + nums;
-
-        const fontSize = 16;
-        let columns = canvas.width / fontSize;
-        const rainDrops = new Array(Math.ceil(columns)).fill(1);
+        const chars = 'アカサタナハマヤラワガザダバパABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        const drops = new Array(columns).fill(1);
 
         function draw() {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillRect(0, 0, width, height);
 
-            ctx.font = fontSize + 'px monospace';
-            ctx.fillStyle = '#00FF00';
+            ctx.fillStyle = '#0f0';
+            ctx.font = `${charSize}px "Matrix Code NFI"`;
 
-            for (let i = 0; i < rainDrops.length; i++) {
-                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillText(text, i * charSize, drops[i] * charSize);
 
-                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    rainDrops[i] = 0;
+                if (drops[i] * charSize > height && Math.random() > 0.975) {
+                    drops[i] = 0;
                 }
-                rainDrops[i]++;
+                drops[i]++;
             }
         }
 
@@ -184,10 +145,9 @@
         animate();
 
         window.addEventListener('resize', () => {
-            resizeCanvas();
-            columns = canvas.width / fontSize;
-            rainDrops.length = Math.ceil(columns);
-            rainDrops.fill(1);
+            cancelAnimationFrame(animationId);
+            setup();
+            animate();
         });
 
         // Pause animation when tab is not visible to save resources
@@ -198,80 +158,6 @@
                 animate();
             }
         });
-
-        // Tic Tac Toe Game
-        const playGameBtn = document.getElementById('play-game');
-        const ticTacToeDiv = document.getElementById('tic-tac-toe');
-        const cells = document.querySelectorAll('[data-cell]');
-        const gameStatus = document.getElementById('game-status');
-        let currentPlayer = 'X';
-        let gameActive = false;
-
-        const winningCombinations = [
-            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
-            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
-            [0, 4, 8], [2, 4, 6] // Diagonals
-        ];
-
-        playGameBtn.addEventListener('click', startGame);
-
-        function startGame() {
-            ticTacToeDiv.style.display = 'block';
-            gameActive = true;
-            currentPlayer = 'X';
-            cells.forEach(cell => {
-                cell.textContent = '';
-                cell.addEventListener('click', handleCellClick, { once: true });
-            });
-            gameStatus.textContent = `Player ${currentPlayer}'s turn`;
-        }
-
-        function handleCellClick(e) {
-            const cell = e.target;
-            placeMark(cell, currentPlayer);
-            if (checkWin(currentPlayer)) {
-                endGame(false);
-            } else if (isDraw()) {
-                endGame(true);
-            } else {
-                swapTurns();
-                gameStatus.textContent = `Player ${currentPlayer}'s turn`;
-            }
-        }
-
-        function placeMark(cell, mark) {
-            cell.textContent = mark;
-        }
-
-        function swapTurns() {
-            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-        }
-
-        function checkWin(player) {
-            return winningCombinations.some(combination => {
-                return combination.every(index => {
-                    return cells[index].textContent === player;
-                });
-            });
-        }
-
-        function isDraw() {
-            return [...cells].every(cell => {
-                return cell.textContent !== '';
-            });
-        }
-
-        function endGame(draw) {
-            gameActive = false;
-            if (draw) {
-                gameStatus.textContent = "It's a draw!";
-            } else {
-                gameStatus.textContent = `Player ${currentPlayer} wins!`;
-            }
-            cells.forEach(cell => {
-                cell.removeEventListener('click', handleCellClick);
-            });
-        }
     </script>
 </body>
 
