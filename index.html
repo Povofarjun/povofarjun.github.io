@@ -17,7 +17,6 @@
         :root {
             --primary-color: #00ff00;
             --background-color: #000000;
-            --hover-color: #00ff00;
         }
 
         body, html {
@@ -55,11 +54,12 @@
             color: var(--primary-color);
             text-shadow: 0 0 10px var(--primary-color);
             cursor: pointer;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         h1:hover {
-            color: var(--hover-color);
+            text-shadow: 0 0 20px var(--primary-color);
+            transform: scale(1.05);
         }
 
         p {
@@ -145,58 +145,17 @@
             }
         });
 
-        // Name hover effect
+        // Smooth hover effect
         const nameElement = document.getElementById('name');
         const originalName = nameElement.textContent;
         const hoverText = "Contact Arjun - Click Here";
 
-        function glitchText(originalText, newText, callback) {
-            const glitchChars = 'アカサタナハマヤラワガザダバパ!@#$%^&*()_+-={}[]|;:,.<>?';
-            let progress = 0;
-            let glitchInterval;
-
-            function glitchStep() {
-                let glitchedText = '';
-                for (let i = 0; i < Math.max(originalText.length, newText.length); i++) {
-                    if (i < progress) {
-                        glitchedText += newText[i] || '';
-                    } else if (Math.random() < 0.1) {
-                        glitchedText += glitchChars[Math.floor(Math.random() * glitchChars.length)];
-                    } else {
-                        glitchedText += originalText[i] || '';
-                    }
-                }
-                nameElement.textContent = glitchedText;
-                progress++;
-
-                if (progress > newText.length) {
-                    clearInterval(glitchInterval);
-                    nameElement.textContent = newText;
-                    if (callback) callback();
-                }
-            }
-
-            glitchInterval = setInterval(glitchStep, 50);
-        }
-
-        let isHovering = false;
-
         nameElement.addEventListener('mouseenter', () => {
-            if (!isHovering) {
-                isHovering = true;
-                glitchText(originalName, hoverText, () => {
-                    if (!isHovering) {
-                        glitchText(hoverText, originalName, () => isHovering = false);
-                    }
-                });
-            }
+            nameElement.textContent = hoverText;
         });
 
         nameElement.addEventListener('mouseleave', () => {
-            isHovering = false;
-            if (nameElement.textContent !== originalName) {
-                glitchText(nameElement.textContent, originalName, () => isHovering = false);
-            }
+            nameElement.textContent = originalName;
         });
 
         nameElement.addEventListener('click', () => {
