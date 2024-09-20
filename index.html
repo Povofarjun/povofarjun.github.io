@@ -54,6 +54,12 @@
             margin: 0.2em 0;
             color: var(--primary-color);
             text-shadow: 0 0 10px var(--primary-color);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        h1:hover {
+            color: var(--hover-color);
         }
 
         p {
@@ -62,63 +68,9 @@
             color: var(--primary-color);
         }
 
-        .button {
-            display: inline-block;
-            margin-top: 1em;
-            padding: 0.5em 1em;
-            font-size: clamp(1rem, 2vw, 1.5rem);
-            color: var(--background-color);
-            background-color: var(--primary-color);
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 10px var(--primary-color);
-        }
-
-        .button:hover {
-            background-color: var(--hover-color);
-            box-shadow: 0 0 20px var(--hover-color);
-            transform: scale(1.05);
-        }
-
-        #terminal {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            width: 300px;
-            height: 200px;
-            background-color: rgba(0, 0, 0, 0.7);
-            border: 1px solid var(--primary-color);
-            padding: 10px;
-            font-family: monospace;
-            font-size: 14px;
-            color: var(--primary-color);
-            overflow-y: auto;
-            display: none;
-        }
-
-        #skills {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            text-align: right;
-        }
-
-        .skill {
-            font-size: 1rem;
-            margin: 5px 0;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
         @media (max-width: 480px) {
             .content {
                 width: 95%;
-            }
-            #terminal, #skills {
-                display: none;
             }
         }
     </style>
@@ -128,17 +80,7 @@
     <canvas id="matrix"></canvas>
     <div class="content">
         <p>Welcome to my World!</p>
-        <h1>Arjun Pansheriya</h1>
-        <a href="mailto:arjunpansheria@gmail.com" class="button">Connect</a>
-        <a href="#" class="button" id="show-terminal">Access Terminal</a>
-    </div>
-    <div id="terminal"></div>
-    <div id="skills">
-        <div class="skill">Python</div>
-        <div class="skill">JavaScript</div>
-        <div class="skill">Machine Learning</div>
-        <div class="skill">Web Development</div>
-        <div class="skill">Data Analysis</div>
+        <h1 id="name">Arjun Pansheriya</h1>
     </div>
 
     <script>
@@ -158,22 +100,25 @@
 
         const chars = 'アカサタナハマヤラワガザダバパABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         const drops = new Array(columns).fill(1);
+        const speeds = new Array(columns).fill(0).map(() => Math.random() * 0.5 + 0.5);
+        const opacity = new Array(columns).fill(0).map(() => Math.random() * 0.5 + 0.5);
 
         function draw() {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, width, height);
 
-            ctx.fillStyle = '#0f0';
-            ctx.font = `${charSize}px "Matrix Code NFI"`;
-
             for (let i = 0; i < drops.length; i++) {
                 const text = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillStyle = `rgba(0, 255, 0, ${opacity[i]})`;
+                ctx.font = `${charSize}px "Matrix Code NFI"`;
                 ctx.fillText(text, i * charSize, drops[i] * charSize);
 
                 if (drops[i] * charSize > height && Math.random() > 0.99) {
                     drops[i] = 0;
+                    speeds[i] = Math.random() * 0.5 + 0.5;
+                    opacity[i] = Math.random() * 0.5 + 0.5;
                 }
-                drops[i]++;
+                drops[i] += speeds[i];
             }
         }
 
@@ -200,71 +145,50 @@
             }
         });
 
-        // Terminal functionality
-        const terminal = document.getElementById('terminal');
-        const showTerminalBtn = document.getElementById('show-terminal');
+        // Name hover effect
+        const nameElement = document.getElementById('name');
+        const originalName = nameElement.textContent;
+        const hoverText = "Contact Arjun - Click Here";
 
-        showTerminalBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            terminal.style.display = terminal.style.display === 'none' ? 'block' : 'none';
-            if (terminal.style.display === 'block') {
-                terminalWrite('Welcome to Arjun\'s terminal. Type "help" for available commands.');
-            }
+        function glitchText(originalText, newText) {
+            const glitchChars = '!@#$%^&*()_+-={}[]|;:,.<>?';
+            let progress = 0;
+            
+            return new Promise(resolve => {
+                const intervalId = setInterval(() => {
+                    let glitchedText = '';
+                    for (let i = 0; i < originalText.length; i++) {
+                        if (i < progress) {
+                            glitchedText += newText[i] || ' ';
+                        } else if (Math.random() < 0.1) {
+                            glitchedText += glitchChars[Math.floor(Math.random() * glitchChars.length)];
+                        } else {
+                            glitchedText += originalText[i];
+                        }
+                    }
+                    nameElement.textContent = glitchedText;
+                    progress++;
+                    
+                    if (progress > newText.length) {
+                        clearInterval(intervalId);
+                        nameElement.textContent = newText;
+                        resolve();
+                    }
+                }, 50);
+            });
+        }
+
+        nameElement.addEventListener('mouseenter', () => {
+            glitchText(originalName, hoverText);
         });
 
-        function terminalWrite(text) {
-            terminal.innerHTML += text + '<br>';
-            terminal.scrollTop = terminal.scrollHeight;
-        }
-
-        document.addEventListener('keypress', (e) => {
-            if (terminal.style.display === 'block' && e.key === 'Enter') {
-                const command = terminal.innerHTML.split('<br>').pop();
-                handleCommand(command);
-            }
+        nameElement.addEventListener('mouseleave', () => {
+            glitchText(hoverText, originalName);
         });
 
-        function handleCommand(command) {
-            switch (command.toLowerCase()) {
-                case 'help':
-                    terminalWrite('Available commands: about, skills, projects, clear');
-                    break;
-                case 'about':
-                    terminalWrite('Arjun Pansheriya: A passionate developer with interests in AI and web technologies.');
-                    break;
-                case 'skills':
-                    terminalWrite('Skills: Python, JavaScript, Machine Learning, Web Development, Data Analysis');
-                    break;
-                case 'projects':
-                    terminalWrite('Projects: [Your projects here]');
-                    break;
-                case 'clear':
-                    terminal.innerHTML = '';
-                    break;
-                default:
-                    terminalWrite('Unknown command. Type "help" for available commands.');
-            }
-        }
-
-        // Skills animation
-        const skills = document.querySelectorAll('.skill');
-        let currentSkill = 0;
-
-        function showNextSkill() {
-            if (currentSkill < skills.length) {
-                skills[currentSkill].style.opacity = 1;
-                currentSkill++;
-                setTimeout(showNextSkill, 1000);
-            } else {
-                setTimeout(() => {
-                    skills.forEach(skill => skill.style.opacity = 0);
-                    currentSkill = 0;
-                    setTimeout(showNextSkill, 1000);
-                }, 3000);
-            }
-        }
-
-        showNextSkill();
+        nameElement.addEventListener('click', () => {
+            window.location.href = "mailto:arjunpansheria@gmail.com";
+        });
     </script>
 </body>
 
