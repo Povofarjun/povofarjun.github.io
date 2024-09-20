@@ -17,7 +17,7 @@
         :root {
             --primary-color: #00ff00;
             --background-color: #000000;
-            --hover-color: #ff00ff;
+            --hover-color: #00ff00;
         }
 
         body, html {
@@ -150,40 +150,53 @@
         const originalName = nameElement.textContent;
         const hoverText = "Contact Arjun - Click Here";
 
-        function glitchText(originalText, newText) {
-            const glitchChars = '!@#$%^&*()_+-={}[]|;:,.<>?';
+        function glitchText(originalText, newText, callback) {
+            const glitchChars = 'アカサタナハマヤラワガザダバパ!@#$%^&*()_+-={}[]|;:,.<>?';
             let progress = 0;
-            
-            return new Promise(resolve => {
-                const intervalId = setInterval(() => {
-                    let glitchedText = '';
-                    for (let i = 0; i < originalText.length; i++) {
-                        if (i < progress) {
-                            glitchedText += newText[i] || ' ';
-                        } else if (Math.random() < 0.1) {
-                            glitchedText += glitchChars[Math.floor(Math.random() * glitchChars.length)];
-                        } else {
-                            glitchedText += originalText[i];
-                        }
+            let glitchInterval;
+
+            function glitchStep() {
+                let glitchedText = '';
+                for (let i = 0; i < Math.max(originalText.length, newText.length); i++) {
+                    if (i < progress) {
+                        glitchedText += newText[i] || '';
+                    } else if (Math.random() < 0.1) {
+                        glitchedText += glitchChars[Math.floor(Math.random() * glitchChars.length)];
+                    } else {
+                        glitchedText += originalText[i] || '';
                     }
-                    nameElement.textContent = glitchedText;
-                    progress++;
-                    
-                    if (progress > newText.length) {
-                        clearInterval(intervalId);
-                        nameElement.textContent = newText;
-                        resolve();
-                    }
-                }, 50);
-            });
+                }
+                nameElement.textContent = glitchedText;
+                progress++;
+
+                if (progress > newText.length) {
+                    clearInterval(glitchInterval);
+                    nameElement.textContent = newText;
+                    if (callback) callback();
+                }
+            }
+
+            glitchInterval = setInterval(glitchStep, 50);
         }
 
+        let isHovering = false;
+
         nameElement.addEventListener('mouseenter', () => {
-            glitchText(originalName, hoverText);
+            if (!isHovering) {
+                isHovering = true;
+                glitchText(originalName, hoverText, () => {
+                    if (!isHovering) {
+                        glitchText(hoverText, originalName, () => isHovering = false);
+                    }
+                });
+            }
         });
 
         nameElement.addEventListener('mouseleave', () => {
-            glitchText(hoverText, originalName);
+            isHovering = false;
+            if (nameElement.textContent !== originalName) {
+                glitchText(nameElement.textContent, originalName, () => isHovering = false);
+            }
         });
 
         nameElement.addEventListener('click', () => {
