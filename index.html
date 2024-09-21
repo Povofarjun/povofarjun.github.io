@@ -17,6 +17,7 @@
         :root {
             --primary-color: #00ff00;
             --background-color: #000000;
+            --glow-color: rgba(0, 255, 0, 0.5);
         }
 
         body, html {
@@ -52,19 +53,16 @@
             font-size: clamp(2rem, 5vw, 5rem);
             margin: 0.2em 0;
             color: var(--primary-color);
-            text-shadow: 0 0 10px var(--primary-color);
+            text-shadow: 0 0 10px var(--glow-color);
             cursor: pointer;
-            transition: text-shadow 0.3s ease;
-        }
-
-        h1:hover {
-            text-shadow: 0 0 20px var(--primary-color);
+            transition: all 0.3s ease;
         }
 
         p {
             font-size: clamp(1rem, 2vw, 1.5rem);
             margin: 0.5em 0;
             color: var(--primary-color);
+            text-shadow: 0 0 5px var(--glow-color);
         }
 
         @media (max-width: 480px) {
@@ -98,26 +96,29 @@
         setup();
 
         const chars = 'アカサタナハマヤラワガザダバパABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        const drops = new Array(columns).fill(1);
-        const speeds = new Array(columns).fill(0).map(() => Math.random() * 0.5 + 0.5);
-        const opacity = new Array(columns).fill(0).map(() => Math.random() * 0.5 + 0.5);
+        const drops = new Array(columns).fill(0);
+        const glowIntensity = new Array(columns).fill(0);
 
         function draw() {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, width, height);
 
             for (let i = 0; i < drops.length; i++) {
-                const text = chars[Math.floor(Math.random() * chars.length)];
-                ctx.fillStyle = `rgba(0, 255, 0, ${opacity[i]})`;
-                ctx.font = `${charSize}px "Matrix Code NFI"`;
-                ctx.fillText(text, i * charSize, drops[i] * charSize);
+                const char = chars[Math.floor(Math.random() * chars.length)];
+                const y = drops[i] * charSize;
 
-                if (drops[i] * charSize > height && Math.random() > 0.99) {
+                const glow = glowIntensity[i];
+                ctx.fillStyle = `rgba(0, ${Math.floor(255 * glow)}, 0, ${glow})`;
+                ctx.font = `${charSize}px "Matrix Code NFI"`;
+                ctx.fillText(char, i * charSize, y);
+
+                if (y > height && Math.random() > 0.99) {
                     drops[i] = 0;
-                    speeds[i] = Math.random() * 0.5 + 0.5;
-                    opacity[i] = Math.random() * 0.5 + 0.5;
+                    glowIntensity[i] = 1;
                 }
-                drops[i] += speeds[i];
+
+                drops[i]++;
+                glowIntensity[i] *= 0.95;
             }
         }
 
@@ -144,54 +145,61 @@
             }
         });
 
-        // Improved glitch effect
+        // Refined glitch effect
         const nameElement = document.getElementById('name');
         const originalName = "Arjun Pansheriya";
         const hoverText = "Contact Arjun - Click Here";
 
-        function glitchText(from, to, element, duration = 1000, steps = 20) {
+        function gentleGlitch(from, to, element, duration = 2000) {
             const glitchChars = 'アカサタナハマヤラワガザダバパ!@#$%^&*()_+-={}[]|;:,.<>?';
-            const stepDuration = duration / steps;
-            let currentStep = 0;
+            const maxLength = Math.max(from.length, to.length);
+            let current = from.padEnd(maxLength);
+            let target = to.padEnd(maxLength);
+            let glitching = false;
 
-            function glitchStep() {
-                if (currentStep >= steps) {
-                    element.textContent = to;
-                    return;
-                }
+            function updateText() {
+                element.textContent = current;
+            }
 
-                let glitched = '';
-                for (let i = 0; i < Math.max(from.length, to.length); i++) {
-                    if (Math.random() < currentStep / steps) {
-                        glitched += to[i] || '';
-                    } else if (Math.random() < 0.1) {
-                        glitched += glitchChars[Math.floor(Math.random() * glitchChars.length)];
-                    } else {
-                        glitched += from[i] || '';
+            function glitchChar(index) {
+                return new Promise(resolve => {
+                    let glitchCount = 0;
+                    const maxGlitches = 3;
+                    const glitchInterval = setInterval(() => {
+                        if (glitchCount >= maxGlitches) {
+                            clearInterval(glitchInterval);
+                            current = current.substring(0, index) + target[index] + current.substring(index + 1);
+                            updateText();
+                            resolve();
+                        } else {
+                            current = current.substring(0, index) + glitchChars[Math.floor(Math.random() * glitchChars.length)] + current.substring(index + 1);
+                            updateText();
+                            glitchCount++;
+                        }
+                    }, 50);
+                });
+            }
+
+            async function glitchText() {
+                if (glitching) return;
+                glitching = true;
+                for (let i = 0; i < maxLength; i++) {
+                    if (current[i] !== target[i]) {
+                        await glitchChar(i);
+                        await new Promise(resolve => setTimeout(resolve, duration / maxLength));
                     }
                 }
-                element.textContent = glitched;
-                currentStep++;
-                setTimeout(glitchStep, stepDuration);
+                glitching = false;
             }
 
-            glitchStep();
+            return glitchText;
         }
 
-        let isHovering = false;
+        const glitchToHover = gentleGlitch(originalName, hoverText, nameElement);
+        const glitchToOriginal = gentleGlitch(hoverText, originalName, nameElement);
 
-        nameElement.addEventListener('mouseenter', () => {
-            if (!isHovering) {
-                isHovering = true;
-                glitchText(originalName, hoverText, nameElement);
-            }
-        });
-
-        nameElement.addEventListener('mouseleave', () => {
-            isHovering = false;
-            glitchText(hoverText, originalName, nameElement);
-        });
-
+        nameElement.addEventListener('mouseenter', glitchToHover);
+        nameElement.addEventListener('mouseleave', glitchToOriginal);
         nameElement.addEventListener('click', () => {
             window.location.href = "mailto:arjunpansheria@gmail.com";
         });
