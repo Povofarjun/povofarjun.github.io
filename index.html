@@ -95,7 +95,7 @@
 
         setup();
 
-        const chars = 'アカサタナハマヤラワガザダバパABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        const chars = 'アカサタナハマヤラワガザダバパろぬふあうえおやゆよわほへむせらになんかすいてたちとしはきくまのりれけめるねもみこひそさつむんぢすほあっやおえょゅぱたとてたじずぞざたとまぼゃょABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         const drops = new Array(columns).fill(0);
         const glowIntensity = new Array(columns).fill(0);
 
@@ -148,10 +148,10 @@
         // Refined glitch effect
         const nameElement = document.getElementById('name');
         const originalName = "Arjun Pansheriya";
-        const hoverText = "Contact Arjun - Click Here";
+        const hoverText = "Click Here";
 
         function gentleGlitch(from, to, element, duration = 2000) {
-            const glitchChars = 'アカサタナハマヤラワガザダバパ!@#$%^&*()_+-={}[]|;:,.<>?';
+            const glitchChars = 'アカサタナハマヤラワガザダバパろぬふあうえおやゆよわほへむせらになんかすいてたちとしはきくまのりれけめるねもみこひそさつむんぢすほあっやおえょゅぱたとてたじずぞざたとまぼゃょ';
             const maxLength = Math.max(from.length, to.length);
             let current = from.padEnd(maxLength);
             let target = to.padEnd(maxLength);
