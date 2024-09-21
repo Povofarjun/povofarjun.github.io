@@ -54,12 +54,11 @@
             color: var(--primary-color);
             text-shadow: 0 0 10px var(--primary-color);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: text-shadow 0.3s ease;
         }
 
         h1:hover {
             text-shadow: 0 0 20px var(--primary-color);
-            transform: scale(1.05);
         }
 
         p {
@@ -145,17 +144,52 @@
             }
         });
 
-        // Smooth hover effect
+        // Improved glitch effect
         const nameElement = document.getElementById('name');
-        const originalName = nameElement.textContent;
+        const originalName = "Arjun Pansheriya";
         const hoverText = "Contact Arjun - Click Here";
 
+        function glitchText(from, to, element, duration = 1000, steps = 20) {
+            const glitchChars = 'アカサタナハマヤラワガザダバパ!@#$%^&*()_+-={}[]|;:,.<>?';
+            const stepDuration = duration / steps;
+            let currentStep = 0;
+
+            function glitchStep() {
+                if (currentStep >= steps) {
+                    element.textContent = to;
+                    return;
+                }
+
+                let glitched = '';
+                for (let i = 0; i < Math.max(from.length, to.length); i++) {
+                    if (Math.random() < currentStep / steps) {
+                        glitched += to[i] || '';
+                    } else if (Math.random() < 0.1) {
+                        glitched += glitchChars[Math.floor(Math.random() * glitchChars.length)];
+                    } else {
+                        glitched += from[i] || '';
+                    }
+                }
+                element.textContent = glitched;
+                currentStep++;
+                setTimeout(glitchStep, stepDuration);
+            }
+
+            glitchStep();
+        }
+
+        let isHovering = false;
+
         nameElement.addEventListener('mouseenter', () => {
-            nameElement.textContent = hoverText;
+            if (!isHovering) {
+                isHovering = true;
+                glitchText(originalName, hoverText, nameElement);
+            }
         });
 
         nameElement.addEventListener('mouseleave', () => {
-            nameElement.textContent = originalName;
+            isHovering = false;
+            glitchText(hoverText, originalName, nameElement);
         });
 
         nameElement.addEventListener('click', () => {
