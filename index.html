@@ -85,40 +85,47 @@
         const ctx = canvas.getContext('2d');
 
         let width, height, columns;
-        const charSize = 14;
+        const fontSize = 14;
 
         function setup() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
-            columns = Math.floor(width / charSize);
+            columns = Math.floor(width / fontSize);
         }
 
         setup();
 
         const chars = 'アカサタナハマヤラワガザダバパろぬふあうえおやゆよわほへむせらになんかすいてたちとしはきくまのりれけめるねもみこひそさつむんぢすほあっやおえょゅぱたとてたじずぞざたとまぼゃょABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        const drops = new Array(columns).fill(0);
-        const glowIntensity = new Array(columns).fill(0);
+        const drops = [];
+
+        for (let i = 0; i < columns; i++) {
+            drops[i] = Math.floor(Math.random() * -height);
+        }
 
         function draw() {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, width, height);
 
-            for (let i = 0; i < drops.length; i++) {
-                const char = chars[Math.floor(Math.random() * chars.length)];
-                const y = drops[i] * charSize;
+            ctx.font = fontSize + 'px Matrix Code NFI';
 
-                const glow = glowIntensity[i];
-                ctx.fillStyle = `rgba(0, ${Math.floor(255 * glow)}, 0, ${glow})`;
-                ctx.font = `${charSize}px "Matrix Code NFI"`;
-                ctx.fillText(char, i * charSize, y);
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                const y = drops[i] * fontSize;
+
+                // Create gradient for each column
+                const gradient = ctx.createLinearGradient(0, y, 0, y + fontSize * 20);
+                gradient.addColorStop(0, '#0f0');
+                gradient.addColorStop(0.2, '#0f0');
+                gradient.addColorStop(1, 'rgba(0, 255, 0, 0)');
+                
+                ctx.fillStyle = gradient;
+                ctx.fillText(text, i * fontSize, y);
 
                 if (y > height && Math.random() > 0.99) {
                     drops[i] = 0;
-                    glowIntensity[i] = 1;
+                } else {
+                    drops[i]++;
                 }
-
-                drops[i]++;
-                glowIntensity[i] *= 0.95;
             }
         }
 
@@ -134,6 +141,9 @@
         window.addEventListener('resize', () => {
             cancelAnimationFrame(animationId);
             setup();
+            for (let i = 0; i < columns; i++) {
+                drops[i] = Math.floor(Math.random() * -height);
+            }
             animate();
         });
 
@@ -145,61 +155,67 @@
             }
         });
 
-        // Refined glitch effect
+        // Improved glitch effect
         const nameElement = document.getElementById('name');
         const originalName = "Arjun Pansheriya";
         const hoverText = "Click Here";
 
-        function gentleGlitch(from, to, element, duration = 2000) {
+        function glitchEffect(element, targetText, duration = 1000) {
+            const originalText = element.textContent;
             const glitchChars = 'アカサタナハマヤラワガザダバパろぬふあうえおやゆよわほへむせらになんかすいてたちとしはきくまのりれけめるねもみこひそさつむんぢすほあっやおえょゅぱたとてたじずぞざたとまぼゃょ';
-            const maxLength = Math.max(from.length, to.length);
-            let current = from.padEnd(maxLength);
-            let target = to.padEnd(maxLength);
-            let glitching = false;
+            const steps = 20;
+            const stepDuration = duration / steps;
 
-            function updateText() {
-                element.textContent = current;
-            }
+            return new Promise(resolve => {
+                let step = 0;
 
-            function glitchChar(index) {
-                return new Promise(resolve => {
-                    let glitchCount = 0;
-                    const maxGlitches = 3;
-                    const glitchInterval = setInterval(() => {
-                        if (glitchCount >= maxGlitches) {
-                            clearInterval(glitchInterval);
-                            current = current.substring(0, index) + target[index] + current.substring(index + 1);
-                            updateText();
-                            resolve();
-                        } else {
-                            current = current.substring(0, index) + glitchChars[Math.floor(Math.random() * glitchChars.length)] + current.substring(index + 1);
-                            updateText();
-                            glitchCount++;
-                        }
-                    }, 50);
-                });
-            }
-
-            async function glitchText() {
-                if (glitching) return;
-                glitching = true;
-                for (let i = 0; i < maxLength; i++) {
-                    if (current[i] !== target[i]) {
-                        await glitchChar(i);
-                        await new Promise(resolve => setTimeout(resolve, duration / maxLength));
+                function glitchStep() {
+                    if (step >= steps) {
+                        element.textContent = targetText;
+                        resolve();
+                        return;
                     }
-                }
-                glitching = false;
-            }
 
-            return glitchText;
+                    let glitchedText = '';
+                    for (let i = 0; i < targetText.length; i++) {
+                        if (Math.random() < step / steps) {
+                            glitchedText += targetText[i];
+                        } else if (Math.random() < 0.1) {
+                            glitchedText += glitchChars[Math.floor(Math.random() * glitchChars.length)];
+                        } else {
+                            glitchedText += originalText[i] || ' ';
+                        }
+                    }
+                    element.textContent = glitchedText;
+
+                    step++;
+                    setTimeout(glitchStep, stepDuration);
+                }
+
+                glitchStep();
+            });
         }
 
-        const glitchToHover = gentleGlitch(originalName, hoverText, nameElement);
-        const glitchToOriginal = gentleGlitch(hoverText, originalName, nameElement);
+        let isGlitching = false;
 
-        nameElement.addEventListener('mouseenter', glitchToHover);
-        nameElement.addEventListener('mouseleave', glitchToOriginal);
+        nameElement.addEventListener('mouseenter', () => {
+            if (!isGlitching) {
+                isGlitching = true;
+                glitchEffect(nameElement, hoverText).then(() => {
+                    isGlitching = false;
+                });
+            }
+        });
+
+        nameElement.addEventListener('mouseleave', () => {
+            if (!isGlitching) {
+                isGlitching = true;
+                glitchEffect(nameElement, originalName).then(() => {
+                    isGlitching = false;
+                });
+            }
+        });
+
         nameElement.addEventListener('click', () => {
             window.location.href = "mailto:arjunpansheria@gmail.com";
         });
