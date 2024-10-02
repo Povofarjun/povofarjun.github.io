@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arjun Pansheriya</title>
+    <title>Content Bot - Coming Soon</title>
     <style>
         @font-face {
             font-family: 'Matrix Code NFI';
@@ -23,56 +22,86 @@
         body, html {
             margin: 0;
             padding: 0;
-            font-family: 'Matrix Code NFI', monospace;
+            font-family: 'Matrix Code NFI', Arial, sans-serif;
             overflow: hidden;
             background-color: var(--background-color);
             color: var(--primary-color);
             height: 100%;
-            cursor: none; /* Hide the default cursor */
         }
 
-        #matrix, #mouseTrail {
+        #matrix {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-        }
-
-        #matrix {
             z-index: -2;
-        }
-
-        #mouseTrail {
-            z-index: -1;
-            pointer-events: none; /* Allow mouse events to pass through */
         }
 
         .content {
             position: absolute;
-            bottom: 40px;
-            left: 0;
-            right: 0;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             text-align: center;
             z-index: 1;
             text-shadow: 0 0 10px var(--glow-color);
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
         }
 
         h1 {
             font-size: clamp(2rem, 5vw, 5rem);
-            margin: 0.2em 0;
+            margin: 0.5em 0;
             color: var(--primary-color);
-            text-shadow: 0 0 10px var(--glow-color);
-            animation: nameGlow 3s infinite alternate;
         }
 
-        @keyframes nameGlow {
-            from {
-                text-shadow: 0 0 10px var(--glow-color);
-            }
-            to {
-                text-shadow: 0 0 10px var(--primary-color);
-            }
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        #countdown {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            font-size: 1.5rem;
+        }
+
+        .countdown-value {
+            padding: 10px 20px;
+            background-color: rgba(0, 255, 0, 0.2);
+            border-radius: 5px;
+            margin: 0 5px;
+        }
+
+        .email-signup {
+            margin: 20px 0;
+        }
+
+        input[type="email"] {
+            padding: 10px;
+            border: 1px solid var(--primary-color);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: var(--primary-color);
+            border-radius: 5px 0 0 5px;
+            width: 200px;
+        }
+
+        #signup-button {
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: black;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #signup-button:hover {
+            background-color: #00cc00;
         }
 
         footer {
@@ -86,50 +115,59 @@
             text-shadow: 0 0 5px var(--glow-color);
         }
 
-        @media (max-width: 480px) {
-            .content {
-                bottom: 60px;
-            }
-            footer {
-                bottom: 20px;
-            }
+        #custom-cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
         }
     </style>
 </head>
-
 <body>
+    <div id="custom-cursor"></div>
     <canvas id="matrix"></canvas>
-    <canvas id="mouseTrail"></canvas>
     <div class="content">
-        <h1 id="name">Arjun Pansheriya</h1>
+        <h1>Arjun Pansheriya</h1>
+        <p>The Future of Content Creation is Loading...</p>
+        <div id="countdown">
+            <div class="countdown-value" id="days">00</div>
+            <div class="countdown-label">Days</div>
+            <div class="countdown-value" id="hours">00</div>
+            <div class="countdown-label">Hours</div>
+            <div class="countdown-value" id="minutes">00</div>
+            <div class="countdown-label">Minutes</div>
+            <div class="countdown-value" id="seconds">00</div>
+            <div class="countdown-label">Seconds</div>
+        </div>
+        <div class="email-signup">
+            <input type="email" id="email" placeholder="Write your Email" aria-label="Write your Email">
+            <button id="signup-button">Plug In</button>
+        </div>
+        <p>Get ready to experience the next generation of content creation. Sign up now to be notified on launch day!</p>
     </div>
-    <footer>
-        © 2024 Arjun Pansheriya. All rights reserved.
-    </footer>
-
+    <footer>© 2024 Arjun Pansheriya. All rights reserved.</footer>
     <script>
         const matrixCanvas = document.getElementById('matrix');
         const matrixCtx = matrixCanvas.getContext('2d');
-        const mouseTrailCanvas = document.getElementById('mouseTrail');
-        const mouseTrailCtx = mouseTrailCanvas.getContext('2d');
 
         let width, height, columns;
         const fontSize = 14;
 
         function setup() {
-            width = matrixCanvas.width = mouseTrailCanvas.width = window.innerWidth;
-            height = matrixCanvas.height = mouseTrailCanvas.height = window.innerHeight;
+            width = matrixCanvas.width = window.innerWidth;
+            height = matrixCanvas.height = window.innerHeight;
             columns = Math.floor(width / fontSize);
         }
 
         setup();
 
         const chars = 'アカサタナハマヤラワガザダバパろぬふあうえおやゆよわほへむせらになんかすいてたちとしはきくまのりれけめるねもみこひそさつむんぢすほあっやおえょゅぱたとてたじずぞざたとまぼゃょABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        const drops = [];
+        const drops = Array(columns).fill(1);
 
-        for (let i = 0; i < columns; i++) {
-            drops[i] = Math.floor(Math.random() * -height);
-        }
+        const loadingMessages = ["Loading...", "Generating...", "Connecting...", "Compiling...", "Initializing..."];
 
         function drawMatrix() {
             matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.05)';
@@ -141,45 +179,76 @@
                 const text = chars[Math.floor(Math.random() * chars.length)];
                 const y = drops[i] * fontSize;
 
-                // Gradient effect
                 const gradient = matrixCtx.createLinearGradient(0, y, 0, y + fontSize * 20);
-                gradient.addColorStop(0, '#0f0'); // Start color
-                gradient.addColorStop(0.2, '#0f0'); // Slightly brighter green
-                gradient.addColorStop(1, 'rgba(0, 255, 0, 0)'); // Fade to transparent
+                gradient.addColorStop(0, '#0f0'); 
+                gradient.addColorStop(0.2, '#0f0'); 
+                gradient.addColorStop(1, 'rgba(0, 255, 0, 0)'); 
 
                 matrixCtx.fillStyle = gradient; 
                 matrixCtx.fillText(text, i * fontSize, y);
 
-                if (y > height && Math.random() > 0.99) {
+                if (y > height && Math.random() > 0.975) {
                     drops[i] = 0;
-                } else {
-                    drops[i]++;
                 }
+                drops[i]++;
+            }
+
+            // Add loading messages
+            matrixCtx.font = '20px Matrix Code NFI';
+            const randomMessage = loadingMessages[Math.floor(Math.random() * loadingMessages.length)];
+            matrixCtx.fillText(randomMessage, Math.random() * (width - 200), Math.random() * height);
+        }
+
+        // Countdown Timer
+        const countdownDate = new Date("November 1, 2024 00:00:00").getTime(); // Diwali 2024
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days.toString().padStart(2, '0');
+            document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("countdown").innerHTML = "It's here!";
             }
         }
 
-        // Mouse trail
-        const trail = [];
-        const trailLength = 20;
+        updateCountdown();
+        const countdownInterval = setInterval(updateCountdown, 1000);
 
-        function drawMouseTrail() {
-            mouseTrailCtx.clearRect(0, 0, width, height);
-            mouseTrailCtx.font = fontSize + 'px Matrix Code NFI';
+        // Email Signup
+        const signupButton = document.getElementById('signup-button');
+        const emailInput = document.getElementById('email');
 
-            // Smooth out the mouse trail with a decreasing alpha value
-            for (let i = 0; i < trail.length; i++) {
-                const char = chars[Math.floor(Math.random() * chars.length)];
-                const alpha = (trail.length - i) / trailLength; 
-                mouseTrailCtx.fillStyle = `rgba(0, 255, 0, ${alpha})`;
-                mouseTrailCtx.fillText(char, trail[i].x, trail[i].y);
+        signupButton.addEventListener('click', () => {
+            const email = emailInput.value;
+            if (validateEmail(email)) {
+                // Perform email signup with service/backend (placeholder for now)
+                alert(`Signup successful! Email: ${email}`);
+                emailInput.value = ''; // Clear the input after successful signup
+            } else {
+                alert('Please enter a valid email address.');
             }
+        });
+
+        function validateEmail(email) {
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
         }
 
         let animationId;
 
         function animate() {
             drawMatrix();
-            drawMouseTrail();
             animationId = requestAnimationFrame(animate);
         }
 
@@ -188,9 +257,6 @@
         window.addEventListener('resize', () => {
             cancelAnimationFrame(animationId);
             setup();
-            for (let i = 0; i < columns; i++) {
-                drops[i] = Math.floor(Math.random() * -height);
-            }
             animate();
         });
 
@@ -202,25 +268,21 @@
             }
         });
 
-        // Mouse trail event listener with smoother trail
-        let mouseX = 0;
-        let mouseY = 0;
+        // Custom cursor
+        const cursor = document.getElementById('custom-cursor');
+
         document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
         });
 
-        function updateTrail() {
-            trail.push({ x: mouseX, y: mouseY });
-            if (trail.length > trailLength) {
-                trail.shift();
-            }
-        }
+        document.addEventListener('mousedown', () => {
+            cursor.style.transform = 'scale(0.8)';
+        });
 
-        // Update trail with a lower frequency (smooths out trail)
-        let trailUpdateInterval = setInterval(updateTrail, 10); 
-
+        document.addEventListener('mouseup', () => {
+            cursor.style.transform = 'scale(1)';
+        });
     </script>
 </body>
-
 </html>
