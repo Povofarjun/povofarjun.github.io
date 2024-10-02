@@ -125,40 +125,24 @@
             matrixCtx.font = fontSize + 'px Matrix Code NFI';
 
             for (let i = 0; i < drops.length; i++) {
-                const text = chars[Math.floor(Math.random() * chars.length)];
-                const y = drops[i] * fontSize;
+    const text = chars[Math.floor(Math.random() * chars.length)];
+    const y = drops[i] * fontSize;
 
-                const gradient = matrixCtx.createLinearGradient(0, y, 0, y + fontSize * 20);
-                gradient.addColorStop(0, '#0f0');
-                gradient.addColorStop(0.2, '#0f0');
-                gradient.addColorStop(1, 'rgba(0, 255, 0, 0)');
-                
-                matrixCtx.fillStyle = gradient;
-                matrixCtx.fillText(text, i * fontSize, y);
+    const gradient = matrixCtx.createLinearGradient(0, y, 0, y + fontSize * 20);
+    gradient.addColorStop(0, '#0f0');
+    gradient.addColorStop(0.2, '#0f0');
+    gradient.addColorStop(1, 'rgba(0, 255, 0, 0)');
+    
+    matrixCtx.fillStyle = gradient;
+    matrixCtx.fillText(text, i * fontSize, y);
 
-                if (y > height && Math.random() > 0.99) {
-                    drops[i] = 0;
-                } else {
-                    drops[i]++;
-                }
-            }
-        }
-
-        // Mouse trail
-        const trail = [];
-        const trailLength = 20;
-
-        function drawMouseTrail() {
-            mouseTrailCtx.clearRect(0, 0, width, height);
-            mouseTrailCtx.font = fontSize + 'px Matrix Code NFI';
-
-            for (let i = 0; i < trail.length; i++) {
-                const char = chars[Math.floor(Math.random() * chars.length)];
-                const alpha = (i / trailLength) * 0.6;
-                mouseTrailCtx.fillStyle = `rgba(0, 255, 0, ${alpha})`;
-                mouseTrailCtx.fillText(char, trail[i].x, trail[i].y);
-            }
-        }
+    if (y > height) {
+        drops[i] = 0;
+    } else {
+        drops[i]++;
+    }
+    }
+  }
 
         let animationId;
 
