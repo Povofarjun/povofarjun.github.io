@@ -28,6 +28,7 @@
             background-color: var(--background-color);
             color: var(--primary-color);
             height: 100%;
+            cursor: none; /* Hide the default cursor */
         }
 
         #matrix, #mouseTrail {
@@ -44,6 +45,7 @@
 
         #mouseTrail {
             z-index: -1;
+            pointer-events: none; /* Allow mouse events to pass through */
         }
 
         .content {
@@ -53,6 +55,7 @@
             right: 0;
             text-align: center;
             z-index: 1;
+            text-shadow: 0 0 10px var(--glow-color);
         }
 
         h1 {
@@ -60,6 +63,16 @@
             margin: 0.2em 0;
             color: var(--primary-color);
             text-shadow: 0 0 10px var(--glow-color);
+            animation: nameGlow 3s infinite alternate;
+        }
+
+        @keyframes nameGlow {
+            from {
+                text-shadow: 0 0 10px var(--glow-color);
+            }
+            to {
+                text-shadow: 0 0 10px var(--primary-color);
+            }
         }
 
         footer {
@@ -91,7 +104,7 @@
         <h1 id="name">Arjun Pansheriya</h1>
     </div>
     <footer>
-        &copy; 2024 Arjun Pansheriya. All rights reserved.
+        © 2024 Arjun Pansheriya. All rights reserved.
     </footer>
 
     <script>
@@ -125,24 +138,42 @@
             matrixCtx.font = fontSize + 'px Matrix Code NFI';
 
             for (let i = 0; i < drops.length; i++) {
-    const text = chars[Math.floor(Math.random() * chars.length)];
-    const y = drops[i] * fontSize;
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                const y = drops[i] * fontSize;
 
-    const gradient = matrixCtx.createLinearGradient(0, y, 0, y + fontSize * 20);
-    gradient.addColorStop(0, '#0f0');
-    gradient.addColorStop(0.2, '#0f0');
-    gradient.addColorStop(1, 'rgba(0, 255, 0, 0)');
-    
-    matrixCtx.fillStyle = gradient;
-    matrixCtx.fillText(text, i * fontSize, y);
+                // Gradient effect
+                const gradient = matrixCtx.createLinearGradient(0, y, 0, y + fontSize * 20);
+                gradient.addColorStop(0, '#0f0'); // Start color
+                gradient.addColorStop(0.2, '#0f0'); // Slightly brighter green
+                gradient.addColorStop(1, 'rgba(0, 255, 0, 0)'); // Fade to transparent
 
-    if (y > height) {
-        drops[i] = 0;
-    } else {
-        drops[i]++;
-    }
-    }
-  }
+                matrixCtx.fillStyle = gradient; 
+                matrixCtx.fillText(text, i * fontSize, y);
+
+                if (y > height && Math.random() > 0.99) {
+                    drops[i] = 0;
+                } else {
+                    drops[i]++;
+                }
+            }
+        }
+
+        // Mouse trail
+        const trail = [];
+        const trailLength = 20;
+
+        function drawMouseTrail() {
+            mouseTrailCtx.clearRect(0, 0, width, height);
+            mouseTrailCtx.font = fontSize + 'px Matrix Code NFI';
+
+            // Smooth out the mouse trail with a decreasing alpha value
+            for (let i = 0; i < trail.length; i++) {
+                const char = chars[Math.floor(Math.random() * chars.length)];
+                const alpha = (trail.length - i) / trailLength; 
+                mouseTrailCtx.fillStyle = `rgba(0, 255, 0, ${alpha})`;
+                mouseTrailCtx.fillText(char, trail[i].x, trail[i].y);
+            }
+        }
 
         let animationId;
 
@@ -171,13 +202,24 @@
             }
         });
 
-        // Mouse trail event listener
+        // Mouse trail event listener with smoother trail
+        let mouseX = 0;
+        let mouseY = 0;
         document.addEventListener('mousemove', (e) => {
-            trail.push({ x: e.clientX, y: e.clientY });
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function updateTrail() {
+            trail.push({ x: mouseX, y: mouseY });
             if (trail.length > trailLength) {
                 trail.shift();
             }
-        });
+        }
+
+        // Update trail with a lower frequency (smooths out trail)
+        let trailUpdateInterval = setInterval(updateTrail, 10); 
+
     </script>
 </body>
 
