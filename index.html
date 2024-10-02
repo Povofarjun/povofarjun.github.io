@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Content Bot - Coming Soon</title>
+    <title>Arjun Pansheriya - Content Bot Coming Soon</title>
     <style>
         @font-face {
             font-family: 'Matrix Code NFI';
@@ -49,6 +49,12 @@
             background-color: rgba(0, 0, 0, 0.7);
             padding: 20px;
             border-radius: 10px;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .content.show {
+            opacity: 1;
         }
 
         h1 {
@@ -124,11 +130,57 @@
             pointer-events: none;
             z-index: 9999;
         }
+
+        #plug {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 50px;
+            background-color: var(--primary-color);
+            border-radius: 10px;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        #plug.show {
+            opacity: 1;
+            animation: plugAnim 0.8s ease-in-out forwards;
+        }
+
+        @keyframes plugAnim {
+            0% {
+                transform: translate(-50%, -50%);
+            }
+            50% {
+                transform: translate(-50%, -70%);
+            }
+            100% {
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        #plug .cable {
+            width: 100px;
+            height: 5px;
+            background-color: var(--primary-color);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            border-radius: 5px;
+            transform: translate(-50%, 0) skewX(45deg);
+        }
     </style>
 </head>
 <body>
     <div id="custom-cursor"></div>
     <canvas id="matrix"></canvas>
+    <div id="plug">
+        <div class="cable"></div>
+    </div>
     <div class="content">
         <h1>Arjun Pansheriya</h1>
         <p>The Future of Content Creation is Loading...</p>
@@ -152,54 +204,50 @@
     <script>
         const matrixCanvas = document.getElementById('matrix');
         const matrixCtx = matrixCanvas.getContext('2d');
+        const plugElement = document.getElementById('plug');
+        const contentElement = document.querySelector('.content');
 
         let width, height, columns;
         const fontSize = 14;
+        const chars = 'アカサタナハマヤラワガザダバパろぬふあうえおやゆよわほへむせらになんかすいてたちとしはきくまのりれけめるねもみこひそさつむんぢすほあっやおえょゅぱたとてたじずぞざたとまぼゃょABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let drops = [];
+        const loadingMessages = ["Loading...", "Generating...", "Connecting...", "Compiling...", "Initializing..."];
 
         function setup() {
             width = matrixCanvas.width = window.innerWidth;
             height = matrixCanvas.height = window.innerHeight;
             columns = Math.floor(width / fontSize);
+
+            drops = [];
+            for (let i = 0; i < columns; i++) {
+                drops[i] = 1;
+            }
         }
 
         setup();
-
-        const chars = 'アカサタナハマヤラワガザダバパろぬふあうえおやゆよわほへむせらになんかすいてたちとしはきくまのりれけめるねもみこひそさつむんぢすほあっやおえょゅぱたとてたじずぞざたとまぼゃょABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        const drops = Array(columns).fill(1);
-
-        const loadingMessages = ["Loading...", "Generating...", "Connecting...", "Compiling...", "Initializing..."];
 
         function drawMatrix() {
             matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             matrixCtx.fillRect(0, 0, width, height);
 
+            matrixCtx.fillStyle = '#0f0';
             matrixCtx.font = fontSize + 'px Matrix Code NFI';
 
             for (let i = 0; i < drops.length; i++) {
                 const text = chars[Math.floor(Math.random() * chars.length)];
-                const y = drops[i] * fontSize;
+                matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-                const gradient = matrixCtx.createLinearGradient(0, y, 0, y + fontSize * 20);
-                gradient.addColorStop(0, '#0f0'); 
-                gradient.addColorStop(0.2, '#0f0'); 
-                gradient.addColorStop(1, 'rgba(0, 255, 0, 0)'); 
-
-                matrixCtx.fillStyle = gradient; 
-                matrixCtx.fillText(text, i * fontSize, y);
-
-                if (y > height && Math.random() > 0.975) {
+                if (drops[i] * fontSize > height && Math.random() > 0.975) {
                     drops[i] = 0;
                 }
                 drops[i]++;
             }
 
-            // Add loading messages
             matrixCtx.font = '20px Matrix Code NFI';
             const randomMessage = loadingMessages[Math.floor(Math.random() * loadingMessages.length)];
             matrixCtx.fillText(randomMessage, Math.random() * (width - 200), Math.random() * height);
         }
 
-        // Countdown Timer
         const countdownDate = new Date("November 1, 2024 00:00:00").getTime(); // Diwali 2024
 
         function updateCountdown() {
@@ -225,7 +273,6 @@
         updateCountdown();
         const countdownInterval = setInterval(updateCountdown, 1000);
 
-        // Email Signup
         const signupButton = document.getElementById('signup-button');
         const emailInput = document.getElementById('email');
 
@@ -235,6 +282,11 @@
                 // Perform email signup with service/backend (placeholder for now)
                 alert(`Signup successful! Email: ${email}`);
                 emailInput.value = ''; // Clear the input after successful signup
+                plugElement.style.display = 'block';
+                plugElement.classList.add('show');
+                setTimeout(() => {
+                    contentElement.classList.add('show');
+                }, 800); // Wait for animation to complete
             } else {
                 alert('Please enter a valid email address.');
             }
@@ -245,30 +297,15 @@
             return re.test(String(email).toLowerCase());
         }
 
-        let animationId;
-
         function animate() {
             drawMatrix();
-            animationId = requestAnimationFrame(animate);
+            requestAnimationFrame(animate);
         }
 
         animate();
 
-        window.addEventListener('resize', () => {
-            cancelAnimationFrame(animationId);
-            setup();
-            animate();
-        });
+        window.addEventListener('resize', setup);
 
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                cancelAnimationFrame(animationId);
-            } else {
-                animate();
-            }
-        });
-
-        // Custom cursor
         const cursor = document.getElementById('custom-cursor');
 
         document.addEventListener('mousemove', (e) => {
