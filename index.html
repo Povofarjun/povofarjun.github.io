@@ -146,7 +146,7 @@
     </div>
     <footer>© 2024 Arjun Pansheriya. All rights reserved.</footer>
     <script>
-        const matrixCanvas = document.getElementById('matrix');
+         const matrixCanvas = document.getElementById('matrix');
         const matrixCtx = matrixCanvas.getContext('2d');
         const contentElement = document.querySelector('.content');
 
@@ -169,26 +169,33 @@
         setup();
 
         function drawMatrix() {
-            matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // Clear the canvas slightly
+            matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             matrixCtx.fillRect(0, 0, width, height);
 
-            matrixCtx.fillStyle = '#0f0'; // Green color
+            matrixCtx.fillStyle = '#0f0';
             matrixCtx.font = fontSize + 'px monospace';
 
-            for (let i = 0; i < drops.length; i++) { // Loop through each column
-                const text = chars[Math.floor(Math.random() * chars.length)]; // Choose a random character
-                const y = drops[i] * fontSize; // Calculate the y-position
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-                matrixCtx.fillText(text, i * fontSize, y); // Draw the character
-
-                if (y > height && Math.random() > 0.975) { // Reset if character falls below the screen
-                    drops[i] = 0; 
+                if (drops[i] * fontSize > height && Math.random() > 0.975) {
+                    drops[i] = 0;
                 }
-                drops[i]++; // Increment the y-position of the character in the current column
+                drops[i]++;
             }
         }
 
-        const countdownDate = new Date("November 1, 2024 00:00:00").getTime();
+        function animate() {
+            drawMatrix();
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            setup();
+        });
 
         function updateCountdown() {
             const now = new Date().getTime();
