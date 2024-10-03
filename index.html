@@ -120,11 +120,64 @@
             pointer-events: none;
             z-index: 9999;
         }
+
+        /* Plug In Animation */
+        #plug {
+            display: none; 
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 50px;
+            background-color: var(--primary-color);
+            border-radius: 10px;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        #plug.show {
+            opacity: 1;
+            animation: plugAnim 0.8s ease-in-out forwards;
+        }
+
+        @keyframes plugAnim {
+            0% {
+                transform: translate(-50%, -50%);
+            }
+            50% {
+                transform: translate(-50%, -70%);
+            }
+            100% {
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        #plug .cable {
+            width: 100px;
+            height: 5px;
+            background-color: var(--primary-color);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            border-radius: 5px;
+            transform: translate(-50%, 0) skewX(45deg);
+        }
+
+        #plug.show {
+            display: block; /* Show plug */
+            opacity: 1;
+            animation: plugAnim 0.8s ease-in-out forwards;
+        }
     </style>
 </head>
 <body>
     <div id="custom-cursor"></div>
     <canvas id="matrix"></canvas>
+    <div id="plug">
+        <div class="cable"></div>
+    </div>
     <div class="content">
         <h1>Arjun Pansheriya</h1>
         <p>The Future of Content Creation is Loading...</p>
@@ -146,14 +199,17 @@
     </div>
     <footer>© 2024 Arjun Pansheriya. All rights reserved.</footer>
     <script>
-         const matrixCanvas = document.getElementById('matrix');
+        const matrixCanvas = document.getElementById('matrix');
         const matrixCtx = matrixCanvas.getContext('2d');
         const contentElement = document.querySelector('.content');
+        const plugElement = document.getElementById('plug');
 
         let width, height, columns;
         const fontSize = 14;
         const chars = 'アカサタナハマヤラワガザダバパろぬふあうえおやゆよわほへむせらになんかすいてたちとしはきくまのりれけめるねもみこひそさつむんぢすほあっやおえょゅぱたとてたじずぞざたとまぼゃょABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        const characters = chars.split(''); 
         let drops = [];
+        const loadingMessages = ["Loading...", "Generating...", "Connecting...", "Compiling...", "Initializing..."];
 
         function setup() {
             width = matrixCanvas.width = window.innerWidth;
@@ -176,7 +232,8 @@
             matrixCtx.font = fontSize + 'px monospace';
 
             for (let i = 0; i < drops.length; i++) {
-                const text = chars[Math.floor(Math.random() * chars.length)];
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                const text = characters[randomIndex]; // Use characters from pre-filled array
                 matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
 
                 if (drops[i] * fontSize > height && Math.random() > 0.975) {
@@ -186,16 +243,7 @@
             }
         }
 
-        function animate() {
-            drawMatrix();
-            requestAnimationFrame(animate);
-        }
-
-        animate();
-
-        window.addEventListener('resize', () => {
-            setup();
-        });
+        const countdownDate = new Date("November 1, 2024 00:00:00").getTime(); // Now you have it!
 
         function updateCountdown() {
             const now = new Date().getTime();
@@ -226,11 +274,17 @@
         signupButton.addEventListener('click', () => {
             const email = emailInput.value;
             if (validateEmail(email)) {
+                // Perform email signup with service/backend (placeholder for now)
                 alert(`Signup successful! Email: ${email}`);
                 emailInput.value = '';
             } else {
                 alert('Please enter a valid email address.');
             }
+
+            plugElement.classList.add('show');
+            setTimeout(() => { // This waits for animation 
+                contentElement.classList.add('show'); 
+            }, 800);
         });
 
         function validateEmail(email) {
