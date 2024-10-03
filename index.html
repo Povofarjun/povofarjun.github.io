@@ -123,7 +123,7 @@
 
         /* Plug In Animation */
         #plug {
-            display: none; 
+            opacity: 0;
             position: absolute;
             top: 50%;
             left: 50%;
@@ -133,7 +133,6 @@
             background-color: var(--primary-color);
             border-radius: 10px;
             z-index: 2;
-            opacity: 0;
             transition: opacity 0.5s ease-in-out;
         }
 
@@ -164,12 +163,6 @@
             border-radius: 5px;
             transform: translate(-50%, 0) skewX(45deg);
         }
-
-        #plug.show {
-            display: block; /* Show plug */
-            opacity: 1;
-            animation: plugAnim 0.8s ease-in-out forwards;
-        }
     </style>
 </head>
 <body>
@@ -198,6 +191,7 @@
         <p>Get ready to experience the next generation of content creation. Sign up now to be notified on launch day!</p>
     </div>
     <footer>© 2024 Arjun Pansheriya. All rights reserved.</footer>
+
     <script>
         const matrixCanvas = document.getElementById('matrix');
         const matrixCtx = matrixCanvas.getContext('2d');
@@ -207,9 +201,8 @@
         let width, height, columns;
         const fontSize = 14;
         const chars = 'アカサタナハマヤラワガザダバパろぬふあうえおやゆよわほへむせらになんかすいてたちとしはきくまのりれけめるねもみこひそさつむんぢすほあっやおえょゅぱたとてたじずぞざたとまぼゃょABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        const characters = chars.split(''); 
+        const characters = chars.split('');
         let drops = [];
-        const loadingMessages = ["Loading...", "Generating...", "Connecting...", "Compiling...", "Initializing..."];
 
         function setup() {
             width = matrixCanvas.width = window.innerWidth;
@@ -218,32 +211,31 @@
 
             drops = [];
             for (let i = 0; i < columns; i++) {
-                drops[i] = 1;
+                drops[i] = Math.floor(Math.random() * height / fontSize); // Start from a random position
             }
         }
 
         setup();
 
         function drawMatrix() {
-            matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // Fade effect
             matrixCtx.fillRect(0, 0, width, height);
 
-            matrixCtx.fillStyle = '#0f0';
+            matrixCtx.fillStyle = '#0F0'; // Matrix green
             matrixCtx.font = fontSize + 'px monospace';
 
             for (let i = 0; i < drops.length; i++) {
-                const randomIndex = Math.floor(Math.random() * characters.length);
-                const text = characters[randomIndex]; // Use characters from pre-filled array
+                const text = characters[Math.floor(Math.random() * characters.length)];
                 matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-                if (drops[i] * fontSize > height && Math.random() > 0.975) {
-                    drops[i] = 0;
+                drops[i] = Math.floor(Math.random() * height / fontSize); {
+                drops[i] = 0; // Reset drop to the top
                 }
                 drops[i]++;
             }
         }
 
-        const countdownDate = new Date("November 1, 2024 00:00:00").getTime(); // Now you have it!
+        const countdownDate = new Date("November 1, 2024 00:00:00").getTime();
 
         function updateCountdown() {
             const now = new Date().getTime();
@@ -265,55 +257,37 @@
             }
         }
 
-        updateCountdown();
         const countdownInterval = setInterval(updateCountdown, 1000);
 
-        const signupButton = document.getElementById('signup-button');
-        const emailInput = document.getElementById('email');
+        document.getElementById('signup-button').addEventListener('click', () => {
+            const emailInput = document.getElementById('email').value;
+            const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-        signupButton.addEventListener('click', () => {
-            const email = emailInput.value;
-            if (validateEmail(email)) {
-                // Perform email signup with service/backend (placeholder for now)
-                alert(`Signup successful! Email: ${email}`);
-                emailInput.value = '';
+            if (re.test(emailInput)) {
+                plugElement.classList.add('show');
+                setTimeout(() => {
+                    contentElement.style.display = 'none';
+                }, 800);  // Matches the plug animation duration
             } else {
                 alert('Please enter a valid email address.');
             }
-
-            plugElement.classList.add('show');
-            setTimeout(() => { // This waits for animation 
-                contentElement.classList.add('show'); 
-            }, 800);
         });
 
-        function validateEmail(email) {
-            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return re.test(String(email).toLowerCase());
+        window.addEventListener('resize', setup);
+
+        function animateMatrix() {
+            drawMatrix();
+            requestAnimationFrame(animateMatrix);
         }
 
-        function animate() {
-            drawMatrix(); // Call the drawMatrix function for the falling effect
-            requestAnimationFrame(animate); // Continue the animation loop
-        }
+        animateMatrix();
 
-        animate(); // Start the animation
+        // Custom Cursor
+        const customCursor = document.getElementById('custom-cursor');
 
-        window.addEventListener('resize', setup); // Handle resizing
-
-        const cursor = document.getElementById('custom-cursor');
-
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        document.addEventListener('mousedown', () => {
-            cursor.style.transform = 'scale(0.8)';
-        });
-
-        document.addEventListener('mouseup', () => {
-            cursor.style.transform = 'scale(1)';
+        window.addEventListener('mousemove', (e) => {
+            customCursor.style.left = `${e.pageX - 10}px`;
+            customCursor.style.top = `${e.pageY - 10}px`;
         });
     </script>
 </body>
