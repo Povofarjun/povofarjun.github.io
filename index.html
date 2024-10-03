@@ -5,14 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arjun Pansheriya - Content Bot Coming Soon</title>
     <style>
-        @font-face {
-            font-family: 'Matrix Code NFI';
-            src: url('https://cdnjs.cloudflare.com/ajax/libs/matrixfont/1.0.0/matrix-code-nfi.woff2') format('woff2');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
-
         :root {
             --primary-color: #00ff00;
             --background-color: #000000;
@@ -22,7 +14,7 @@
         body, html {
             margin: 0;
             padding: 0;
-            font-family: 'Matrix Code NFI', Arial, sans-serif;
+            font-family: 'Courier New', monospace;
             overflow: hidden;
             background-color: var(--background-color);
             color: var(--primary-color);
@@ -49,18 +41,14 @@
             background-color: rgba(0, 0, 0, 0.7);
             padding: 20px;
             border-radius: 10px;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
-
-        .content.show {
-            opacity: 1;
         }
 
         h1 {
             font-size: clamp(2rem, 5vw, 5rem);
             margin: 0.5em 0;
             color: var(--primary-color);
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
         p {
@@ -94,6 +82,7 @@
             color: var(--primary-color);
             border-radius: 5px 0 0 5px;
             width: 200px;
+            font-family: inherit;
         }
 
         #signup-button {
@@ -104,6 +93,7 @@
             border-radius: 0 5px 5px 0;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            font-family: inherit;
         }
 
         #signup-button:hover {
@@ -130,57 +120,11 @@
             pointer-events: none;
             z-index: 9999;
         }
-
-        #plug {
-            display: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100px;
-            height: 50px;
-            background-color: var(--primary-color);
-            border-radius: 10px;
-            z-index: 2;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
-
-        #plug.show {
-            opacity: 1;
-            animation: plugAnim 0.8s ease-in-out forwards;
-        }
-
-        @keyframes plugAnim {
-            0% {
-                transform: translate(-50%, -50%);
-            }
-            50% {
-                transform: translate(-50%, -70%);
-            }
-            100% {
-                transform: translate(-50%, -50%);
-            }
-        }
-
-        #plug .cable {
-            width: 100px;
-            height: 5px;
-            background-color: var(--primary-color);
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            border-radius: 5px;
-            transform: translate(-50%, 0) skewX(45deg);
-        }
     </style>
 </head>
 <body>
     <div id="custom-cursor"></div>
     <canvas id="matrix"></canvas>
-    <div id="plug">
-        <div class="cable"></div>
-    </div>
     <div class="content">
         <h1>Arjun Pansheriya</h1>
         <p>The Future of Content Creation is Loading...</p>
@@ -204,14 +148,12 @@
     <script>
         const matrixCanvas = document.getElementById('matrix');
         const matrixCtx = matrixCanvas.getContext('2d');
-        const plugElement = document.getElementById('plug');
         const contentElement = document.querySelector('.content');
 
         let width, height, columns;
         const fontSize = 14;
         const chars = 'アカサタナハマヤラワガザダバパろぬふあうえおやゆよわほへむせらになんかすいてたちとしはきくまのりれけめるねもみこひそさつむんぢすほあっやおえょゅぱたとてたじずぞざたとまぼゃょABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         let drops = [];
-        const loadingMessages = ["Loading...", "Generating...", "Connecting...", "Compiling...", "Initializing..."];
 
         function setup() {
             width = matrixCanvas.width = window.innerWidth;
@@ -227,28 +169,26 @@
         setup();
 
         function drawMatrix() {
-            matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // Clear the canvas slightly
             matrixCtx.fillRect(0, 0, width, height);
 
-            matrixCtx.fillStyle = '#0f0';
-            matrixCtx.font = fontSize + 'px Matrix Code NFI';
+            matrixCtx.fillStyle = '#0f0'; // Green color
+            matrixCtx.font = fontSize + 'px monospace';
 
-            for (let i = 0; i < drops.length; i++) {
-                const text = chars[Math.floor(Math.random() * chars.length)];
-                matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
+            for (let i = 0; i < drops.length; i++) { // Loop through each column
+                const text = chars[Math.floor(Math.random() * chars.length)]; // Choose a random character
+                const y = drops[i] * fontSize; // Calculate the y-position
 
-                if (drops[i] * fontSize > height && Math.random() > 0.975) {
-                    drops[i] = 0;
+                matrixCtx.fillText(text, i * fontSize, y); // Draw the character
+
+                if (y > height && Math.random() > 0.975) { // Reset if character falls below the screen
+                    drops[i] = 0; 
                 }
-                drops[i]++;
+                drops[i]++; // Increment the y-position of the character in the current column
             }
-
-            matrixCtx.font = '20px Matrix Code NFI';
-            const randomMessage = loadingMessages[Math.floor(Math.random() * loadingMessages.length)];
-            matrixCtx.fillText(randomMessage, Math.random() * (width - 200), Math.random() * height);
         }
 
-        const countdownDate = new Date("November 1, 2024 00:00:00").getTime(); // Diwali 2024
+        const countdownDate = new Date("November 1, 2024 00:00:00").getTime();
 
         function updateCountdown() {
             const now = new Date().getTime();
@@ -279,14 +219,8 @@
         signupButton.addEventListener('click', () => {
             const email = emailInput.value;
             if (validateEmail(email)) {
-                // Perform email signup with service/backend (placeholder for now)
                 alert(`Signup successful! Email: ${email}`);
-                emailInput.value = ''; // Clear the input after successful signup
-                plugElement.style.display = 'block';
-                plugElement.classList.add('show');
-                setTimeout(() => {
-                    contentElement.classList.add('show');
-                }, 800); // Wait for animation to complete
+                emailInput.value = '';
             } else {
                 alert('Please enter a valid email address.');
             }
@@ -298,13 +232,13 @@
         }
 
         function animate() {
-            drawMatrix();
-            requestAnimationFrame(animate);
+            drawMatrix(); // Call the drawMatrix function for the falling effect
+            requestAnimationFrame(animate); // Continue the animation loop
         }
 
-        animate();
+        animate(); // Start the animation
 
-        window.addEventListener('resize', setup);
+        window.addEventListener('resize', setup); // Handle resizing
 
         const cursor = document.getElementById('custom-cursor');
 
