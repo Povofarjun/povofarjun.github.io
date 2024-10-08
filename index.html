@@ -69,6 +69,10 @@
             margin: 0 5px;
         }
 
+        .countdown-label {
+            font-size: 1.5rem;
+        }
+
         .email-signup {
             margin: 20px 0;
         }
@@ -226,10 +230,10 @@
                 const text = characters[Math.floor(Math.random() * characters.length)];
                 matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-                drops[i] = Math.floor(Math.random() * height / fontSize); {
-                drops[i] = 0; // Reset drop to the top
+                drops[i]++; // Increment drop position
+                if (drops[i] * fontSize > height) {
+                    drops[i] = 0; // Reset drop to the top
                 }
-                drops[i]++;
             }
         }
 
