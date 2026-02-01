@@ -621,23 +621,28 @@
         }
 
         /* ========================================
-           Response Section
+           Response Section (overrides section animation when hidden)
            ======================================== */
         .response-section {
             display: none;
             text-align: center;
             padding: 3rem 2rem;
-            animation: responseEnter 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: none;
+            opacity: 0;
+            transform: scale(0.92);
         }
 
         .response-section.show {
             display: block;
+            opacity: 1;
+            transform: scale(1);
+            animation: responseEnter 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
         @keyframes responseEnter {
             from {
                 opacity: 0;
-                transform: scale(0.9);
+                transform: scale(0.92);
             }
             to {
                 opacity: 1;
@@ -1159,8 +1164,11 @@
             }
 
             handleYes() {
-                document.getElementById('question-section').style.display = 'none';
-                document.getElementById('response-section').classList.add('show');
+                const questionSection = document.getElementById('question-section');
+                const responseSection = document.getElementById('response-section');
+                questionSection.style.display = 'none';
+                responseSection.classList.add('show');
+                responseSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 this.celebrate();
             }
 
