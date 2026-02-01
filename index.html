@@ -3,293 +3,1268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arjun Pansheriya - Content Bot Coming Soon</title>
+    <meta name="description" content="A special Valentine's message for Prerana">
+    <title>For Prerana 💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* ========================================
+           CSS Variables & Reset
+           ======================================== */
         :root {
-            --primary-color: #00ff00;
-            --background-color: #000000;
-            --glow-color: rgba(0, 255, 0, 0.5);
+            --primary-color: #e91e63;
+            --primary-light: #ff6b9d;
+            --primary-dark: #c2185b;
+            --bg-gradient-start: #ff9a9e;
+            --bg-gradient-end: #fecfef;
+            --white: #ffffff;
+            --text-primary: #2d3436;
+            --text-secondary: #636e72;
+            --shadow-soft: 0 10px 40px rgba(233, 30, 99, 0.15);
+            --shadow-medium: 0 15px 50px rgba(233, 30, 99, 0.25);
+            --shadow-strong: 0 25px 80px rgba(233, 30, 99, 0.35);
+            --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --border-radius: 24px;
         }
 
-        body, html {
+        *, *::before, *::after {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Courier New', monospace;
-            overflow: hidden;
-            background-color: var(--background-color);
-            color: var(--primary-color);
-            height: 100%;
         }
 
-        #matrix {
+        /* ========================================
+           Base Styles & Smooth Rendering
+           ======================================== */
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ========================================
+           Floating Particles
+           ======================================== */
+        .particles {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
         }
 
-        .content {
+        .particle {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            text-shadow: 0 0 10px var(--glow-color);
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 20px;
-            border-radius: 10px;
+            will-change: transform, opacity;
+            animation: particleFall linear infinite;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            backface-visibility: hidden;
         }
 
+        @keyframes particleFall {
+            0% {
+                transform: translate3d(0, -10vh, 0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translate3d(0, 110vh, 0) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* ========================================
+           Container & Sections
+           ======================================== */
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--border-radius);
+            padding: 2.5rem 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-medium);
+            opacity: 0;
+            transform: translate3d(0, 40px, 0);
+            animation: sectionEnter 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            overflow: hidden;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        section:nth-child(1) { animation-delay: 0.1s; }
+        section:nth-child(2) { animation-delay: 0.3s; }
+        section:nth-child(3) { animation-delay: 0.5s; }
+        section:nth-child(4) { animation-delay: 0.7s; }
+        section:nth-child(5) { animation-delay: 0.9s; }
+
+        @keyframes sectionEnter {
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        /* ========================================
+           Typography
+           ======================================== */
         h1 {
-            font-size: clamp(2rem, 5vw, 5rem);
-            margin: 0.5em 0;
             color: var(--primary-color);
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(233, 30, 99, 0.2);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: clamp(1.3rem, 4vw, 1.6rem);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        h3 {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
         }
 
         p {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
+            color: var(--text-primary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
         }
 
-        #countdown {
+        .subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* ========================================
+           Hero Section
+           ======================================== */
+        .hero {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .hero-emoji {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: bounce 2s ease-in-out infinite;
+            display: inline-block;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .name-highlight {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* ========================================
+           Prescription Card
+           ======================================== */
+        .prescription {
+            background: linear-gradient(145deg, var(--white), #f8f9fa);
+            border: 3px dashed var(--primary-light);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            backface-visibility: hidden;
+        }
+
+        .prescription-header {
+            text-align: center;
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .prescription-title {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .rx-symbol {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+
+        .prescription-content {
+            font-size: 1rem;
+            line-height: 2;
+        }
+
+        .prescription-content ul {
+            margin: 1rem 0;
+            padding-left: 2.5rem;
+        }
+
+        .prescription-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prescription-footer {
+            margin-top: 1.5rem;
+            text-align: right;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .doctor-signature {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* ========================================
+           Timeline
+           ======================================== */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary-light), var(--primary-color));
+            border-radius: 3px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+            padding-left: 1.5rem;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '💕';
+            position: absolute;
+            left: -2.2rem;
+            top: 0.2rem;
+            font-size: 1.2rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .timeline-date {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content {
+            background: linear-gradient(135deg, #fff5f8, var(--white));
+            padding: 1rem 1.2rem;
+            border-radius: 12px;
+            border-left: 3px solid var(--primary-light);
+        }
+
+        .timeline-content strong {
+            color: var(--primary-color);
+        }
+
+        /* ========================================
+           Quiz Section
+           ======================================== */
+        .quiz-intro {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-question {
+            background: linear-gradient(135deg, #fff5f8, var(--white));
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid rgba(233, 30, 99, 0.1);
+            transition: var(--transition-smooth);
+            backface-visibility: hidden;
+        }
+
+        .quiz-question:hover {
+            box-shadow: var(--shadow-soft);
+        }
+
+        .quiz-question h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .quiz-btn {
+            background: var(--white);
+            border: 2px solid rgba(233, 30, 99, 0.2);
+            padding: 0.9rem 1.2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            text-align: left;
+            transition: var(--transition-smooth);
+            font-family: inherit;
+        }
+
+        .quiz-btn:hover:not(:disabled) {
+            background: var(--primary-light);
+            border-color: var(--primary-light);
+            color: var(--white);
+            transform: translateX(8px);
+        }
+
+        .quiz-btn:disabled {
+            cursor: default;
+        }
+
+        .quiz-btn.correct {
+            background: #4caf50;
+            border-color: #4caf50;
+            color: var(--white);
+        }
+
+        .quiz-btn.wrong {
+            background: #f44336;
+            border-color: #f44336;
+            color: var(--white);
+        }
+
+        .quiz-result {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            animation: celebrate 0.6s ease;
+        }
+
+        .quiz-result.show {
+            display: block;
+        }
+
+        @keyframes celebrate {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .quiz-score {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin: 1rem 0;
+        }
+
+        .quiz-message {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        /* ========================================
+           Countdown Section
+           ======================================== */
+        .countdown-intro {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .countdown-wrapper {
             display: flex;
             justify-content: center;
-            align-items: center;
-            margin: 20px 0;
-            font-size: 1.5rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
         }
 
-        .countdown-value {
-            padding: 10px 20px;
-            background-color: rgba(0, 255, 0, 0.2);
-            border-radius: 5px;
-            margin: 0 5px;
+        .countdown-box {
+            background: linear-gradient(145deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            padding: 1.5rem 2rem;
+            border-radius: 16px;
+            min-width: 100px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(233, 30, 99, 0.3);
+            transition: var(--transition-smooth);
+            backface-visibility: hidden;
+        }
+
+        .countdown-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(233, 30, 99, 0.4);
+        }
+
+        .countdown-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1;
         }
 
         .countdown-label {
-            font-size: 1.5rem;
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .email-signup {
-            margin: 20px 0;
-        }
-
-        input[type="email"] {
-            padding: 10px;
-            border: 1px solid var(--primary-color);
-            background-color: rgba(0, 0, 0, 0.5);
-            color: var(--primary-color);
-            border-radius: 5px 0 0 5px;
-            width: 200px;
-            font-family: inherit;
-        }
-
-        #signup-button {
-            padding: 10px 20px;
-            background-color: var(--primary-color);
-            color: black;
-            border: none;
-            border-radius: 0 5px 5px 0;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            font-family: inherit;
-        }
-
-        #signup-button:hover {
-            background-color: #00cc00;
-        }
-
-        footer {
-            position: absolute;
-            bottom: 10px;
-            left: 0;
-            right: 0;
+        .countdown-message {
             text-align: center;
-            font-size: clamp(0.8rem, 1.5vw, 1rem);
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        /* ========================================
+           Pre-Question (Do you like me?)
+           ======================================== */
+        .pre-question-section {
+            transition: opacity 0.4s ease;
+        }
+
+        .pre-question-section.hidden {
+            display: none !important;
+        }
+
+        .secret-message {
+            display: none;
+            text-align: center;
+            padding: 1.5rem;
+            animation: sectionEnter 0.6s ease forwards;
+        }
+
+        .secret-message.show {
+            display: block;
+        }
+
+        .secret-message-text {
+            font-size: 1.4rem;
             color: var(--primary-color);
-            text-shadow: 0 0 5px var(--glow-color);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
         }
 
-        #custom-cursor {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--primary-color);
-            border-radius: 50%;
+        .btn-next {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            padding: 0.9rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-family: inherit;
+            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.35);
+        }
+
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(233, 30, 99, 0.45);
+        }
+
+        /* ========================================
+           Music Toggle
+           ======================================== */
+        .music-toggle {
             position: fixed;
-            pointer-events: none;
-            z-index: 9999;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 100;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(233, 30, 99, 0.4);
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-font-smoothing: antialiased;
+            backface-visibility: hidden;
         }
 
-        /* Plug In Animation */
-        #plug {
+        .music-toggle:hover {
+            transform: scale(1.08);
+            box-shadow: 0 6px 28px rgba(233, 30, 99, 0.5);
+        }
+
+        .youtube-container {
+            position: fixed;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
             opacity: 0;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100px;
-            height: 50px;
-            background-color: var(--primary-color);
-            border-radius: 10px;
-            z-index: 2;
-            transition: opacity 0.5s ease-in-out;
+            pointer-events: none;
         }
 
-        #plug.show {
-            opacity: 1;
-            animation: plugAnim 0.8s ease-in-out forwards;
+        /* ========================================
+           Question Section
+           ======================================== */
+        .question-text {
+            text-align: center;
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
         }
 
-        @keyframes plugAnim {
-            0% {
-                transform: translate(-50%, -50%);
+        .button-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            min-height: 80px;
+        }
+
+        .valentine-btn {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-family: inherit;
+            -webkit-font-smoothing: antialiased;
+            backface-visibility: hidden;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            box-shadow: 0 8px 25px rgba(233, 30, 99, 0.35);
+        }
+
+        .btn-yes:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(233, 30, 99, 0.45);
+        }
+
+        .btn-no {
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            color: var(--primary-color);
+            box-shadow: 0 8px 25px rgba(168, 237, 234, 0.4);
+        }
+
+        .btn-no:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(168, 237, 234, 0.5);
+        }
+
+        /* ========================================
+           Response Section
+           ======================================== */
+        .response-section {
+            display: none;
+            text-align: center;
+            padding: 3rem 2rem;
+            animation: responseEnter 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .response-section.show {
+            display: block;
+        }
+
+        @keyframes responseEnter {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
             }
-            50% {
-                transform: translate(-50%, -70%);
-            }
-            100% {
-                transform: translate(-50%, -50%);
+            to {
+                opacity: 1;
+                transform: scale(1);
             }
         }
 
-        #plug .cable {
-            width: 100px;
-            height: 5px;
-            background-color: var(--primary-color);
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            border-radius: 5px;
-            transform: translate(-50%, 0) skewX(45deg);
+        .celebration-emoji {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            animation: bounce 1s ease-in-out infinite;
         }
+
+        .response-message {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .response-subtext {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        /* ========================================
+           Footer
+           ======================================== */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .footer-emoji {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-text {
+            font-size: 0.95rem;
+        }
+
+        /* ========================================
+           Responsive Design
+           ======================================== */
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+
+            section {
+                padding: 1.5rem 1.2rem;
+            }
+
+            .prescription {
+                padding: 1.5rem;
+            }
+
+            .countdown-box {
+                padding: 1rem 1.5rem;
+                min-width: 80px;
+            }
+
+            .countdown-number {
+                font-size: 1.8rem;
+            }
+
+            .valentine-btn {
+                padding: 0.9rem 2rem;
+                font-size: 1rem;
+            }
+
+            .question-text {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* ========================================
+           Utility Classes
+           ======================================== */
+        .text-center { text-align: center; }
+        .mt-1 { margin-top: 1rem; }
+        .mb-0 { margin-bottom: 0; }
     </style>
 </head>
 <body>
-    <div id="plug">
-        <div class="cable"></div>
-    </div>
-    <div class="content">
-        <h1>Arjun Pansheriya</h1>
-        <p>The Future of Content Creation is Loading...</p>
-        <div id="countdown">
-            <div class="countdown-value" id="days">00</div>
-            <div class="countdown-label">Days</div>
-            <div class="countdown-value" id="hours">00</div>
-            <div class="countdown-label">Hours</div>
-            <div class="countdown-value" id="minutes">00</div>
-            <div class="countdown-label">Minutes</div>
-            <div class="countdown-value" id="seconds">00</div>
-            <div class="countdown-label">Seconds</div>
-        </div>
-        <div class="email-signup">
-            <input type="email" id="email" placeholder="Write your Email" aria-label="Write your Email">
-            <button id="signup-button">Plug In</button>
-        </div>
-         <div id="custom-cursor"></div>
-         <canvas id="matrix"></canvas>
-        <p>Get ready to experience the next generation of content creation. Sign up now to be notified on launch day!</p>
-    </div>
-    <footer>© 2024 Arjun Pansheriya. All rights reserved.</footer>
+    <!-- Particles -->
+    <div class="particles" id="particles"></div>
 
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-emoji">🌸</div>
+            <h1>Happy Valentine's Day!</h1>
+            <p class="subtitle">For the most amazing person I know 💕</p>
+            <p class="text-center">
+                To <span class="name-highlight">Prerana</span> (my <span class="name-highlight">Jadudi</span> 🐣)
+            </p>
+        </section>
+
+        <!-- Prescription Section -->
+        <section>
+            <h2>📋 A Special Prescription</h2>
+            <div class="prescription">
+                <div class="prescription-header">
+                    <div class="prescription-title">🏥 Valentine's Medical Center</div>
+                    <div style="color: var(--text-secondary); font-size: 0.85rem;">Est. 2025 • Cebu to India</div>
+                </div>
+                
+                <div class="rx-symbol">Rx</div>
+                
+                <div class="prescription-content">
+                    <p class="text-center">
+                        <strong>Patient Name:</strong> Prerana "Jadudi" 💕<br><br>
+                        
+                        <strong>Reason for Visit:</strong> Exceptional cases of:
+                    </p>
+                    <ul>
+                        <li>Being incredibly smart and humble (verified MBBS 💉)</li>
+                        <li>Making someone smile just by existing ✨</li>
+                        <li>Patiently listening to astronomy/economics rants (even when bored 😂)</li>
+                        <li>Possessing the cutest nickname: "Jadudi" 🐣</li>
+                    </ul>
+                    
+                    <p class="text-center">
+                        <strong>Prescription:</strong><br>
+                        💕 <strong>Friendship & Good Vibes</strong> - Daily doses recommended<br>
+                        📹 <strong>Video calls</strong> - 2-3 times a day for maximum happiness<br>
+                        💬 <strong>Endless conversations</strong> - Anytime the Khadus is free<br><br>
+                        
+                        <strong>Note:</strong> May cause uncontrollable smiling. Side effects include increased happiness and occasional eye-rolls. Totally worth it! 😄
+                    </p>
+                </div>
+
+                <div class="prescription-footer">
+                    <p>Prescribed with ❤️ by</p>
+                    <p class="doctor-signature">Your favorite Khadus 💙</p>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">
+                        May 13 & May 15 - The universe got the dates right! 🎂🎂
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section>
+            <h2>📅 Our Story So Far</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">December 3rd Week, 2025 💫</div>
+                    <div class="timeline-content">
+                        <strong>The Beginning ✨</strong><br>
+                        Snapchat connected us. First message sent, and suddenly there was this amazing person who made my days brighter.
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Since Then 💬</div>
+                    <div class="timeline-content">
+                        <strong>Endless Conversations 🗣️</strong><br>
+                        From astronomy to economics to biology - topics I love, and one special person who puts up with them all! 😄<br>
+                        <em>"Khadus" (stubborn) and "Jadudi" (chubby 🐣) - the iconic duo!</em>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Today 💕</div>
+                    <div class="timeline-content">
+                        <strong>First Valentine's Together (From Afar!) 🎉</strong><br>
+                        You in Cebu 🇵🇭, me here 🇮🇳... but distance can't stop good vibes! 💖
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">In ~7-8 Months 🤞</div>
+                    <div class="timeline-content">
+                        <strong>Finally Meeting! 🤗</strong><br>
+                        When you come back to India, the first round of coffee/chai is on me! 🛫
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section>
+            <h2>💯 Quick Quiz: How Well Do You Know the Khadus?</h2>
+            <p class="quiz-intro">Test your knowledge! (Hint: I really like space topics 🌟)</p>
+            
+            <div id="quiz-container">
+                <div class="quiz-question" data-question="1">
+                    <h4>1. What's Arjun's favorite topic to talk about?</h4>
+                    <div class="quiz-options">
+                        <button class="quiz-btn" data-correct="false">Sports 🏏</button>
+                        <button class="quiz-btn" data-correct="true">Astronomy, Economics & Biology 🔭</button>
+                        <button class="quiz-btn" data-correct="false">Gossip 👀</button>
+                        <button class="quiz-btn" data-correct="false">Politics 📰</button>
+                    </div>
+                </div>
+
+                <div class="quiz-question" data-question="2">
+                    <h4>2. What does Arjun call Prerana?</h4>
+                    <div class="quiz-options">
+                        <button class="quiz-btn" data-correct="false">Princess 👑</button>
+                        <button class="quiz-btn" data-correct="true">Jadudi 🐣</button>
+                        <button class="quiz-btn" data-correct="false">Baby 👶</button>
+                        <button class="quiz-btn" data-correct="false">Pari 🧚</button>
+                    </div>
+                </div>
+
+                <div class="quiz-question" data-question="3">
+                    <h4>3. What does Prerana call Arjun?</h4>
+                    <div class="quiz-options">
+                        <button class="quiz-btn" data-correct="true">Khadus 😤</button>
+                        <button class="quiz-btn" data-correct="false">jaanu</button>
+                        <button class="quiz-btn" data-correct="false">love</button>
+                        <button class="quiz-btn" data-correct="false">sweetheart</button>
+                    </div>
+                </div>
+
+                <div class="quiz-question" data-question="4">
+                    <h4>4. How many days apart are your birthdays?</h4>
+                    <div class="quiz-options">
+                        <button class="quiz-btn" data-correct="false">1 day</button>
+                        <button class="quiz-btn" data-correct="true">2 days</button>
+                        <button class="quiz-btn" data-correct="false">7 days</button>
+                        <button class="quiz-btn" data-correct="false">15 days</button>
+                    </div>
+                </div>
+
+                <div class="quiz-question" data-question="5">
+                    <h4>5. What does Prerana actually think about astronomy?</h4>
+                    <div class="quiz-options">
+                        <button class="quiz-btn" data-correct="false">Super interesting! 🌟</button>
+                        <button class="quiz-btn" data-correct="true">Bored (but still listens to the Khadus) 😂</button>
+                        <button class="quiz-btn" data-correct="false">Hates it 😴</button>
+                        <button class="quiz-btn" data-correct="false">No opinion 🤷</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-result" id="quiz-result">
+                <div class="quiz-score">🎉 <span id="final-score">5/5</span> 🎉</div>
+                <p class="quiz-message" id="result-message"></p>
+            </div>
+        </section>
+
+        <!-- Countdown Section -->
+        <section>
+            <h2>⏰ The Countdown Begins</h2>
+            <p class="countdown-intro">Counting down the days until you return to India... 💕</p>
+            
+            <div class="countdown-wrapper">
+                <div class="countdown-box">
+                    <div class="countdown-number" id="months">7</div>
+                    <div class="countdown-label">Months</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-number" id="days">15</div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-number" id="hours">0</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+            </div>
+
+            <p class="countdown-message">
+                "Every day talking to you feels like a gift. Can't wait for the day we finally meet in person. Until then, this Khadus will keep annoying you with astronomy facts! 😄💙"<br><br>
+                <strong>~ Arjun (your Khadus)</strong>
+            </p>
+        </section>
+
+        <!-- Pre-Question: Do you like me? -->
+        <section class="pre-question-section" id="pre-question-section">
+            <h2>💕 One more thing...</h2>
+            <p class="question-text" id="pre-question-text">
+                Prerana, do you like me? 💕
+            </p>
+            
+            <div class="button-wrapper" id="pre-question-buttons">
+                <button class="valentine-btn btn-yes" id="pre-yes-btn">Yes! 💕</button>
+                <button class="valentine-btn btn-no" id="pre-no-btn">No 😅</button>
+            </div>
+
+            <div class="secret-message" id="secret-message">
+                <p class="secret-message-text" id="secret-message-text"></p>
+                <button class="btn-next" id="btn-next">Next 💕</button>
+            </div>
+        </section>
+
+        <!-- The Question (hidden until pre-question done) -->
+        <section id="question-section" style="display: none;">
+            <h2>💝 The Question</h2>
+            <p class="question-text">
+                Prerana, will you be my Valentine? 💕
+            </p>
+            
+            <div class="button-wrapper">
+                <button class="valentine-btn btn-yes" id="yes-btn">
+                    Yes! 💕
+                </button>
+                <button class="valentine-btn btn-no" id="no-btn">
+                    No 😅
+                </button>
+            </div>
+        </section>
+
+        <!-- Response Section (Hidden) -->
+        <section class="response-section" id="response-section">
+            <div class="celebration-emoji">🎉💕🎉</div>
+            <div class="response-message">
+                <p>YAYYYYY! Thank you for saying YES! 💖💖💖</p>
+            </div>
+            <div class="response-subtext">
+                <p>This just made my Valentine's (and probably my whole year)! 🎉</p>
+                <p style="margin-top: 1rem;">
+                    I promise to:<br>
+                    💕 Keep calling you Jadudi (obviously 🐣)<br>
+                    💕 Talk about astronomy (sorry in advance 😄)<br>
+                    💕 Be your conversation buddy whenever you need one<br>
+                    💕 Count down every day until we can finally meet<br><br>
+                    Welcome to the "Jadudi & Khadus" official partnership! 😂💙
+                </p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-emoji">🌸🦋💕</div>
+            <p class="footer-text">Made with ❤️ by Khadus</p>
+            <p class="footer-text mt-1" style="font-size: 0.85rem;">
+                P.S. No flowers, no gifts - just genuine effort for an amazing person! 💙
+            </p>
+        </footer>
+    </main>
+
+    <!-- Music: YouTube embed (hidden, controlled by button) -->
+    <div id="youtube-container" class="youtube-container"></div>
+    <button type="button" class="music-toggle" id="music-toggle" title="Play music" aria-label="Play background music">🎵</button>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        const matrixCanvas = document.getElementById('matrix');
-        const matrixCtx = matrixCanvas.getContext('2d');
-        const contentElement = document.querySelector('.content');
-        const plugElement = document.getElementById('plug');
+        /* ========================================
+           Particle System
+           ======================================== */
+        class ParticleSystem {
+            constructor() {
+                this.container = document.getElementById('particles');
+                this.emojis = ['💕', '💖', '💗', '💓', '🌸', '🦋'];
+                this.init();
+            }
 
-        let width, height, columns;
-        const fontSize = 14;
-        const chars = 'アカサタナハマヤラワガザダバパろぬふあうえおやゆよわほへむせらになんかすいてたちとしはきくまのりれけめるねもみこひそさつむんぢすほあっやおえょゅぱたとてたじずぞざたとまぼゃょABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        const characters = chars.split('');
-        let drops = [];
+            init() {
+                const { width, height } = this.container.getBoundingClientRect();
+                
+                for (let i = 0; i < 25; i++) {
+                    this.createParticle();
+                }
+            }
 
-        function setup() {
-            width = matrixCanvas.width = window.innerWidth;
-            height = matrixCanvas.height = window.innerHeight;
-            columns = Math.floor(width / fontSize);
-
-            drops = [];
-            for (let i = 0; i < columns; i++) {
-                drops[i] = Math.floor(Math.random() * height / fontSize); // Start from a random position
+            createParticle() {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = this.emojis[Math.floor(Math.random() * this.emojis.length)];
+                
+                const size = Math.random() * 15 + 12;
+                particle.style.fontSize = `${size}px`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                particle.style.animationDelay = `${Math.random() * 10}s`;
+                
+                this.container.appendChild(particle);
+                
+                // Remove and recreate after animation
+                setTimeout(() => {
+                    particle.remove();
+                    this.createParticle();
+                }, (parseFloat(particle.style.animationDuration) * 1000) + 1000);
             }
         }
 
-        setup();
+        /* ========================================
+           Quiz System
+           ======================================== */
+        class QuizSystem {
+            constructor() {
+                this.score = 0;
+                this.answered = 0;
+                this.total = 5;
+                this.init();
+            }
 
-        function drawMatrix() {
-            matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // Fade effect
-            matrixCtx.fillRect(0, 0, width, height);
+            init() {
+                document.querySelectorAll('.quiz-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => this.handleAnswer(e.target));
+                });
+            }
 
-            matrixCtx.fillStyle = '#0F0'; // Matrix green
-            matrixCtx.font = fontSize + 'px monospace';
+            handleAnswer(btn) {
+                if (btn.disabled) return;
+                
+                const question = btn.closest('.quiz-question');
+                const allBtns = question.querySelectorAll('.quiz-btn');
+                
+                // Disable all buttons in this question
+                allBtns.forEach(b => b.disabled = true);
+                
+                const isCorrect = btn.dataset.correct === 'true';
+                
+                if (isCorrect) {
+                    btn.classList.add('correct');
+                    this.score++;
+                } else {
+                    btn.classList.add('wrong');
+                    // Highlight correct answer
+                    allBtns.forEach(b => {
+                        if (b.dataset.correct === 'true') {
+                            b.classList.add('correct');
+                        }
+                    });
+                }
+                
+                this.answered++;
+                
+                if (this.answered === this.total) {
+                    this.showResult();
+                }
+            }
 
-            for (let i = 0; i < drops.length; i++) {
-                const text = characters[Math.floor(Math.random() * characters.length)];
-                matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
+            showResult() {
+                const resultDiv = document.getElementById('quiz-result');
+                document.getElementById('final-score').textContent = `${this.score}/${this.total}`;
+                
+                let message = '';
+                if (this.score === 5) {
+                    message = 'PERFECT SCORE! 💯 You know your Khadus so well! I\'m impressed! 😄💕';
+                } else if (this.score >= 3) {
+                    message = 'Great job! 🎉 You really know me well. Keep it up! 💖';
+                } else {
+                    message = 'Hmm, we need to talk more! 😄 But I still appreciate you! 💕';
+                }
+                
+                document.getElementById('result-message').textContent = message;
+                resultDiv.classList.add('show');
+                
+                resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
 
-                drops[i]++; // Increment drop position
-                if (drops[i] * fontSize > height) {
-                    drops[i] = 0; // Reset drop to the top
+        /* ========================================
+           Pre-Question Flow (Do you like me? -> secret message -> main question)
+           ======================================== */
+        class PreQuestionFlow {
+            constructor() {
+                this.preSection = document.getElementById('pre-question-section');
+                this.preButtons = document.getElementById('pre-question-buttons');
+                this.secretMessage = document.getElementById('secret-message');
+                this.secretText = document.getElementById('secret-message-text');
+                this.btnNext = document.getElementById('btn-next');
+                this.questionSection = document.getElementById('question-section');
+                this.init();
+            }
+
+            init() {
+                document.getElementById('pre-yes-btn').addEventListener('click', () => this.answer(true));
+                document.getElementById('pre-no-btn').addEventListener('click', () => this.answer(false));
+                this.btnNext.addEventListener('click', () => this.goToMainQuestion());
+            }
+
+            answer(isYes) {
+                this.preButtons.style.display = 'none';
+                this.secretText.textContent = isYes
+                    ? "I don't like you... I love you! 💕"
+                    : "Sure you do 😊 ... I don't like you, I love you! 💕";
+                this.secretMessage.classList.add('show');
+            }
+
+            goToMainQuestion() {
+                this.preSection.classList.add('hidden');
+                this.questionSection.style.display = 'block';
+                this.questionSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        /* ========================================
+           Valentine Button System (No makes Yes bigger; Yes shows celebration)
+           ======================================== */
+        class ValentineButtons {
+            constructor() {
+                this.yesBtn = document.getElementById('yes-btn');
+                this.scale = 1;
+                this.init();
+            }
+
+            init() {
+                if (!this.yesBtn) return;
+                this.yesBtn.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                this.yesBtn.addEventListener('click', () => this.handleYes());
+                document.getElementById('no-btn').addEventListener('click', () => this.handleNo());
+            }
+
+            handleNo() {
+                // Grow YES button (works great on iPad / touch)
+                this.scale += 0.3;
+                this.yesBtn.style.transform = `scale(${this.scale})`;
+                
+                if (this.scale > 3) {
+                    this.scale = 3;
+                    this.yesBtn.style.transform = `scale(${this.scale})`;
+                }
+                
+                const noBtn = document.getElementById('no-btn');
+                noBtn.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    noBtn.style.transform = 'scale(1)';
+                }, 100);
+            }
+
+            handleYes() {
+                document.getElementById('question-section').style.display = 'none';
+                document.getElementById('response-section').classList.add('show');
+                this.celebrate();
+            }
+
+            celebrate() {
+                for (let i = 0; i < 50; i++) {
+                    setTimeout(() => {
+                        const particle = document.createElement('div');
+                        particle.className = 'particle';
+                        particle.textContent = ['💕', '💖', '💗', '🎉', '🎊'][Math.floor(Math.random() * 5)];
+                        particle.style.left = `${Math.random() * 100}%`;
+                        particle.style.animationDuration = '3s';
+                        particle.style.fontSize = `${Math.random() * 25 + 20}px`;
+                        document.body.appendChild(particle);
+                        setTimeout(() => particle.remove(), 3000);
+                    }, i * 50);
                 }
             }
         }
 
-        const countdownDate = new Date("November 1, 2024 00:00:00").getTime();
+        /* ========================================
+           Countdown System
+           ======================================== */
+        class CountdownSystem {
+            constructor() {
+                this.update();
+                setInterval(() => this.update(), 3600000); // Update every hour
+            }
 
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = countdownDate - now;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById("days").innerText = days.toString().padStart(2, '0');
-            document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
-            document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
-            document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
-
-            if (distance < 0) {
-                clearInterval(countdownInterval);
-                document.getElementById("countdown").innerHTML = "It's here!";
+            update() {
+                const now = new Date();
+                const target = new Date();
+                target.setMonth(target.getMonth() + 7);
+                target.setDate(target.getDate() + 15);
+                
+                const diff = target - now;
+                const months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30));
+                const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                
+                document.getElementById('months').textContent = months;
+                document.getElementById('days').textContent = days;
+                document.getElementById('hours').textContent = hours;
             }
         }
 
-        const countdownInterval = setInterval(updateCountdown, 1000);
+        /* ========================================
+           YouTube Background Music
+           ======================================== */
+        const YOUTUBE_VIDEO_ID = 'y_GVDbfaiwQ';
+        let ytPlayer = null;
+        let musicPlaying = false;
 
-        document.getElementById('signup-button').addEventListener('click', () => {
-            const emailInput = document.getElementById('email').value;
-            const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-            if (re.test(emailInput)) {
-                plugElement.classList.add('show');
-                setTimeout(() => {
-                    contentElement.style.display = 'none';
-                }, 800);  // Matches the plug animation duration
-            } else {
-                alert('Please enter a valid email address.');
-            }
-        });
-
-        window.addEventListener('resize', setup);
-
-        function animateMatrix() {
-            drawMatrix();
-            requestAnimationFrame(animateMatrix);
+        function onYouTubeIframeAPIReady() {
+            ytPlayer = new YT.Player('youtube-container', {
+                height: '0',
+                width: '0',
+                videoId: YOUTUBE_VIDEO_ID,
+                playerVars: {
+                    autoplay: 1,
+                    controls: 0,
+                    disablekb: 1,
+                    fs: 0,
+                    modestbranding: 1,
+                    playsinline: 1
+                },
+                events: { onReady: onPlayerReady }
+            });
         }
 
-        animateMatrix();
+        function onPlayerReady(event) {
+            const toggle = document.getElementById('music-toggle');
+            if (!toggle) return;
+            toggle.addEventListener('click', () => {
+                if (!ytPlayer || !ytPlayer.playVideo) return;
+                if (musicPlaying) {
+                    ytPlayer.pauseVideo();
+                    toggle.textContent = '🎵';
+                    toggle.title = 'Play music';
+                    musicPlaying = false;
+                } else {
+                    ytPlayer.playVideo();
+                    toggle.textContent = '🔇';
+                    toggle.title = 'Pause music';
+                    musicPlaying = true;
+                }
+            });
+            // Autoplay when page opens (browsers may block until user has interacted)
+            if (ytPlayer && ytPlayer.playVideo) {
+                ytPlayer.playVideo();
+                toggle.textContent = '🔇';
+                toggle.title = 'Pause music';
+                musicPlaying = true;
+            }
+        }
 
-        // Custom Cursor
-        const customCursor = document.getElementById('custom-cursor');
-
-        window.addEventListener('mousemove', (e) => {
-            customCursor.style.left = `${e.pageX - 10}px`;
-            customCursor.style.top = `${e.pageY - 10}px`;
+        /* ========================================
+           Initialize Everything
+           ======================================== */
+        document.addEventListener('DOMContentLoaded', () => {
+            new ParticleSystem();
+            new QuizSystem();
+            new PreQuestionFlow();
+            new ValentineButtons();
+            new CountdownSystem();
         });
     </script>
 </body>
